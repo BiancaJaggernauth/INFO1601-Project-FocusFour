@@ -17,3 +17,321 @@ NOTES FOR TEAM:
 - DO NOT remove the required credentials above
 - Use localStorage key: "isLoggedIn"
 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+<body>
+ 
+  <div class="book" id="book">
+    <div class="book-front" id="bookFront" onclick="openBook()">
+      <div class="cover-title">FocusFour</div>
+      <div class="cover-subtitle">Find Your Focus</div>
+      <div class="cover-hint">✦ tap to open ✦</div>
+  
+    </div>
+    <div class="book-inside"> 
+      <div class="logo-area">
+        <span class="logo-name">FocusFour</span>
+      </div>
+ 
+      <h2>Login</h2>
+      <p id="errorMsg"></p>
+ 
+      <div class="form-group">
+        <label for="username">Username or Email</label>
+        <input type="text" id="username" placeholder="bob or bob@mail.com" />
+      </div>
+ 
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="pw-wrapper">
+          <input type="password" id="password" placeholder="••••••••" />
+          <button class="eye-btn" onclick="togglePass()">👁</button>
+        </div>
+      </div>
+ 
+      <a href="#" class="forgot" onclick="alert('Login link has been sent to your email. If you don\'t see it, check your spam folder.')">Forgot Password?</a>
+ 
+      <button class="btn btn-primary" onclick="login()">Login</button>
+ 
+      <div class="or">OR</div>
+      <div class="register-text">Don't have an account?</div>
+      <button class="btn btn-outline" onclick="goRegister()">Register</button>
+ 
+    </div>
+  </div>
+ <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    body {
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #2d3561 0%, #2d6a7f 55%, #7ba7c2 100%);
+      perspective: 2000px;
+    }
+    .book {
+      position: relative;
+      width: 380px;
+      height: 560px;
+      transform-style: preserve-3d;
+    }
+ 
+    /* front of book*/
+    .book-front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(150deg, #2d3561 0%, #2d6a7f 100%);
+      border-radius: 4px 16px 16px 4px;
+      border-left: 12px solid #1e2540;
+      box-shadow: -6px 4px 20px rgba(0,0,0,0.4), 4px 4px 30px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transform-origin: left center;
+      transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      z-index: 10;
+    }
+ 
+    .book-front.open {
+      transform: rotateY(-160deg);
+    }
+ 
+    .cover-title {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 32px;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+ 
+    .cover-subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+ 
+    .cover-hint {
+      font-size: 12px;
+      color: rgba(254, 254, 254, 0.95);
+      margin-top: 12px;
+      animation: blink 2s ease-in-out infinite;
+    }
+ 
+    @keyframes blink {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    /* Actual login */
+    .book-inside {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(170deg, #d0e8f5 0%, #7ba7c2 50%, #2d6a7f 100%);
+      border-radius: 4px 16px 16px 4px;
+      border-left: 12px solid #1e4d6b;
+      box-shadow: inset 8px 0 20px rgba(0,0,0,0.1);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      overflow-y: auto;
+      z-index: 1;
+      transition: background 0.4s ease;
+    }
+ 
+    .logo-area {
+      background: #1e2540;
+      border-radius: 12px;
+      padding: 8px 24px;
+      margin-bottom: 2px;
+      transition: background 0.3s;
+    }
+ 
+    .logo-area:hover { background: #5c3317; }
+ 
+    .logo-name {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 20px;
+      color: #d0e8f5;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+ 
+    h2 {
+      font-size: 18px;
+      color: #1e2540;
+      font-weight: bold;
+    }
+ 
+    .form-group { width: 100%; }
+ 
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #1e2540;
+      margin-bottom: 5px;
+      transition: color 0.2s;
+    }
+ 
+    label:hover { color: #7a4f2e; }
+ 
+    input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid #7ba7c2;
+      border-radius: 8px;
+      font-size: 14px;
+      background-color: #eaf4fb;
+      color: #1e2540;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+ 
+    input:focus { border-color: #1e2540; background: #fff; }
+    input:hover { border-color: #a0714f; }
+    input::placeholder { color: #7ba7c2; }
+ 
+    .pw-wrapper { position: relative; }
+    .pw-wrapper input { padding-right: 44px; }
+ 
+    .eye-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0;
+      line-height: 1;
+    }
+ 
+    .forgot {
+      align-self: flex-end;
+      font-size: 12px;
+      font-weight: bold;
+      color: #1e2540;
+      text-decoration: none;
+      padding: 2px 8px;
+      border-radius: 4px;
+      transition: background 0.2s, color 0.2s;
+    }
+ 
+    .forgot:hover { background: #7a4f2e; color: #f0d9b5; }
+ 
+    .btn {
+      width: 100%;
+      padding: 11px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+ 
+    .btn-primary {
+      background: #1e2540;
+      color: #d0e8f5;
+      border: 2px solid #1e2540;
+    }
+ 
+    .btn-primary:hover { background: #7a4f2e; border-color: #7a4f2e; color: #f0d9b5; }
+ 
+    .btn-outline {
+      background: transparent;
+      color: #1e2540;
+      border: 2px solid #1e2540;
+    }
+ 
+    .btn-outline:hover { background: #7a4f2e; border-color: #7a4f2e; color: #f0d9b5; }
+ 
+    .or {
+      font-size: 13px;
+      color: #1e2540;
+      position: relative;
+      width: 100%;
+      text-align: center;
+    }
+ 
+    .or::before, .or::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 38%;
+      height: 1px;
+      background: rgba(30,37,64,0.3);
+    }
+ 
+    .or::before { left: 0; }
+    .or::after { right: 0; }
+ 
+    .register-text { font-size: 13px; color: #1e2540; }
+ 
+    #errorMsg {
+      color: #7a1f1f;
+      font-size: 12px;
+      text-align: center;
+      min-height: 14px;
+    }
+  </style>
+ 
+  <script>
+    function togglePass() {
+      var input = document.getElementById('password');
+      var btn = document.querySelector('.eye-btn');
+      var isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.textContent = isHidden ? '🙈' : '👁';
+    }
+ 
+    function openBook() {
+      document.getElementById('bookFront').classList.add('open');
+    }
+ 
+    function goRegister() {
+      window.location.href = 'register.html';
+    }
+ 
+    function login() {
+      var username = document.querySelector("#username").value;
+      var password = document.querySelector("#password").value;
+      var storedUser = JSON.parse(localStorage.getItem("user"));
+ 
+      var validUsername = (username === "bob" || username === "bob@mail.com");
+      var validPassword = (password === "bobpass");
+ 
+      var storedMatch = false;
+      if (storedUser) {
+        storedMatch = (username === storedUser.username || username === storedUser.email) && password === storedUser.password;
+      }
+ 
+      if ((validUsername && validPassword) || storedMatch) {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "dashboard.html";
+      } else {
+        document.querySelector("#errorMsg").innerHTML = "Invalid username or password.";
+      }
+    }
+  </script>
+ 
+</body>
+</html>

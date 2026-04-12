@@ -12,3 +12,247 @@ RESPONSIBILITIES:
 NOTES FOR TEAM:
 - Keep it simple
 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+</head>
+
+<body>
+
+  <div class="register-box">
+
+    <div class="logo-area">
+      <span class="logo-name">FocusFour</span>
+    </div>
+
+    <h2>Create Account</h2>
+
+    <p id="errorMsg"></p>
+    <p id="successMsg"></p>
+
+    <div class="form-group">
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" placeholder="John Doe" />
+    </div>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="john123" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="john@mail.com" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="pw-wrapper">
+        <input type="password" id="password" placeholder="••••••••" />
+        <button class="eye-btn" onclick="togglePass()">👁</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" placeholder="••••••••" />
+    </div>
+
+    <button class="btn btn-primary" onclick="register()">Register</button>
+
+    <div class="login-text">
+      Already have an account?
+      <a href="login.html">Login</a>
+    </div>
+
+  </div>
+
+</body>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #2d3561 0%, #2d6a7f 55%, #7ba7c2 100%);
+  }
+
+  .register-box {
+    width: 380px;
+    background: linear-gradient(170deg, #d0e8f5 0%, #7ba7c2 50%, #2d6a7f 100%);
+    border-radius: 4px 16px 16px 4px;
+    border-left: 12px solid #1e4d6b;
+    box-shadow: inset 8px 0 20px rgba(0,0,0,0.1);
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .logo-area {
+    background: #1e2540;
+    border-radius: 12px;
+    padding: 8px 24px;
+    margin-bottom: 4px;
+  }
+
+  .logo-name {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 20px;
+    color: #d0e8f5;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  h2 {
+    font-size: 18px;
+    color: #1e2540;
+    font-weight: bold;
+  }
+
+  .form-group { width: 100%; }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    color: #1e2540;
+    margin-bottom: 5px;
+  }
+
+  input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 2px solid #7ba7c2;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #eaf4fb;
+    color: #1e2540;
+    outline: none;
+  }
+
+  input:focus { border-color: #1e2540; background: #fff; }
+
+  .pw-wrapper { position: relative; }
+  .pw-wrapper input { padding-right: 44px; }
+
+  .eye-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 11px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: #1e2540;
+    color: #d0e8f5;
+    border: 2px solid #1e2540;
+  }
+
+  .btn-primary:hover {
+    background: #7a4f2e;
+    border-color: #7a4f2e;
+    color: #f0d9b5;
+  }
+
+  .login-text {
+    font-size: 13px;
+    color: #1e2540;
+    text-align: center;
+  }
+
+  .login-text a {
+    color: #1e2540;
+    font-weight: bold;
+    text-decoration: none;
+    display: block;
+    margin-top: 4px;
+  }
+
+  #errorMsg {
+    color: #7a1f1f;
+    font-size: 12px;
+    text-align: center;
+    min-height: 14px;
+  }
+
+  #successMsg {
+    color: green;
+    font-size: 12px;
+    text-align: center;
+    min-height: 14px;
+  }
+</style>
+
+<script>
+  function togglePass() {
+    var input = document.getElementById('password');
+    var btn = document.querySelector('.eye-btn');
+    var isHidden = input.type === 'password';
+    input.type = isHidden ? 'text' : 'password';
+    btn.textContent = isHidden ? '🙈' : '👁';
+  }
+
+  function register() {
+    var fullname = document.getElementById("fullname").value;
+    var username = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    var errorMsg = document.getElementById("errorMsg");
+    var successMsg = document.getElementById("successMsg");
+
+    errorMsg.innerHTML = "";
+    successMsg.innerHTML = "";
+
+    if (!fullname || !username || !email || !password || !confirmPassword) {
+      errorMsg.innerHTML = "Please fill in all fields.";
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      errorMsg.innerHTML = "Passwords do not match.";
+      return;
+    }
+
+    var user = {
+      fullname,
+      username,
+      email,
+      password
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    successMsg.innerHTML = "Account created successfully!";
+
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1500);
+  }
+</script>
+
+</html>
