@@ -318,3 +318,80 @@ function logSession() {
   saveSession(session);
   alert("Session logged successfully!");
 }
+  const moodMap = {
+    lofi:      { label: 'Lo-fi Beats',     src: 'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=0&controls=1&rel=0' },
+    classical: { label: 'Classical',       src: 'https://www.youtube.com/embed/mPZkdNFkNps?autoplay=0&controls=1&rel=0' },
+    nature:    { label: 'Nature Sounds',   src: 'https://www.youtube.com/embed/eKFTSSKCzWA?autoplay=0&controls=1&rel=0' },
+    ambient: { label  : 'Ambient',         src: 'https://www.youtube.com/embed/Ryst1CbI18E?autoplay=0&controls=1&rel=0' },
+    jazz:      { label: 'Jazz Café',       src: 'https://www.youtube.com/embed/Dx5qFachd3A?autoplay=0&controls=1&rel=0' },
+    binaural:  { label: 'Binaural Beats',  src: 'https://www.youtube.com/embed/WPni755-Krg?autoplay=0&controls=1&rel=0' },
+  };
+
+  function setMood(btn, key) {
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const mood = moodMap[key];
+    document.getElementById('mood-player-label').textContent = 'Now playing — ' + mood.label;
+    document.getElementById('mood-iframe').src = mood.src;
+  }
+function toggleMood() {
+  const body = document.getElementById('mood-body');
+  const btn = document.getElementById('mood-toggle-btn');
+  const isOpen = btn.classList.contains('open');
+  if (isOpen) {
+    btn.classList.remove('open');
+    body.style.display = 'none';
+  } else {
+    btn.classList.add('open');
+    body.style.display = 'block';
+  }
+}
+  function loadSpotify() {
+    const raw = document.getElementById('spotify-link-input').value.trim();
+    if (!raw) return;
+    const match = raw.match(/spotify\.com\/(playlist|album|track|artist)\/([A-Za-z0-9]+)/);
+    if (!match) { alert('Please paste a valid Spotify link'); return; }
+    const embedSrc = 'https://open.spotify.com/embed/' + match[1] + '/' + match[2] + '?utm_source=generator';
+    document.getElementById('spotify-placeholder').style.display = 'none';
+    document.getElementById('spotify-embed-container').innerHTML =
+      '<iframe src="' + embedSrc + '" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius:10px;"></iframe>';
+  }
+function loadYoutube() {
+  const raw = document.getElementById('yt-link-input').value.trim();
+  if (!raw) return;
+
+  let embedSrc = '';
+
+  const playlistMatch = raw.match(/[?&]list=([A-Za-z0-9_-]+)/);
+  const videoMatch = raw.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+
+  if (playlistMatch) {
+    embedSrc = 'https://www.youtube.com/embed/videoseries?list=' + playlistMatch[1] + '&controls=1&rel=0';
+  } else if (videoMatch) {
+    embedSrc = 'https://www.youtube.com/embed/' + videoMatch[1] + '?controls=1&rel=0';
+  } else {
+    alert('Please paste a valid YouTube link');
+    return;
+  }
+
+  document.getElementById('yt-placeholder').style.display = 'none';
+  document.getElementById('yt-embed-container').innerHTML =
+    '<iframe src="' + embedSrc + '" width="100%" height="200" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="border-radius:10px; display:block;"></iframe>';
+}
+
+function loadAppleMusic() {
+  const raw = document.getElementById('apple-link-input').value.trim();
+  if (!raw) return;
+
+  const match = raw.match(/music\.apple\.com\/([a-z]{2})\/(playlist|album|song)\/([^/]+)\/([^?]+)/);
+  if (!match) {
+    alert('Please paste a valid Apple Music link');
+    return;
+  }
+
+  const embedSrc = 'https://embed.music.apple.com/' + match[1] + '/' + match[2] + '/' + match[3] + '/' + match[4];
+
+  document.getElementById('apple-placeholder').style.display = 'none';
+  document.getElementById('apple-embed-container').innerHTML =
+    '<iframe src="' + embedSrc + '" width="100%" height="200" frameborder="0" allow="autoplay *; encrypted-media *;" style="border-radius:10px; display:block;"></iframe>';
+}
