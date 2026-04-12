@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// ── LOG BUTTON ───────────────────────────────────────────
+
 function renderLogButton() {
   const wrap = document.getElementById("log-btn-wrap");
   if (isLoggedIn()) {
@@ -54,7 +54,7 @@ function renderLogButton() {
   }
 }
 
-// ── BOOK SEARCH ───────────────────────────────────────────
+
 let selectedBook = null;
 
 function searchBooks() {
@@ -128,19 +128,29 @@ function searchBooks() {
     });
 }
 
-// ── SELECT BOOK ───────────────────────────────────────────
+
 function selectBook(i, title, author) {
-  selectedBook = { title, author };
-  document.querySelectorAll(".btn-select").forEach(btn => {
+  const btn = document.getElementById(`select-${i}`);
+
+  // if already selected, deselect it
+  if (selectedBook && selectedBook.title === title && selectedBook.author === author) {
+    selectedBook = null;
     btn.classList.remove("active");
     btn.textContent = "Select";
+    return;
+  }
+
+  // otherwise select it
+  selectedBook = { title, author };
+  document.querySelectorAll(".btn-select").forEach(b => {
+    b.classList.remove("active");
+    b.textContent = "Select";
   });
-  const btn = document.getElementById(`select-${i}`);
   btn.classList.add("active");
-  btn.textContent = "Selected ✓";
+  btn.textContent = "Selected ";
 }
 
-// ── FAVOURITES ────────────────────────────────────────────
+
 function getFavourites() {
   return JSON.parse(localStorage.getItem("favourites") || "[]");
 }
@@ -201,7 +211,7 @@ function removeFav(index) {
   renderFavourites();
 }
 
-// ── TIMER ─────────────────────────────────────────────────
+
 let timerInterval = null;
 let secondsLeft = 0;
 let timerRunning = false;
@@ -270,7 +280,7 @@ function resetTimer() {
   document.getElementById("btn-start").textContent = "Start Timer";
 }
 
-// ── SESSION LOGGING ───────────────────────────────────────
+
 function gatherSession() {
   return {
     book:     selectedBook ? `${selectedBook.title} — ${selectedBook.author}` : "No book selected",
