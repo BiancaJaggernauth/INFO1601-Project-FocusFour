@@ -205,54 +205,5 @@ NOTES FOR TEAM:
     min-height: 14px;
   }
 </style>
-
-<script>
-  function togglePass() {
-    var input = document.getElementById('password');
-    var btn = document.querySelector('.eye-btn');
-    var isHidden = input.type === 'password';
-    input.type = isHidden ? 'text' : 'password';
-    btn.textContent = isHidden ? '🙈' : '👁';
-  }
-
-  function register() {
-    var fullname = document.getElementById("fullname").value;
-    var username = document.getElementById("username").value;
-    var email = document.getElementById("email").value;
-    var password = document.getElementById("password").value;
-    var confirmPassword = document.getElementById("confirmPassword").value;
-
-    var errorMsg = document.getElementById("errorMsg");
-    var successMsg = document.getElementById("successMsg");
-
-    errorMsg.innerHTML = "";
-    successMsg.innerHTML = "";
-
-    if (!fullname || !username || !email || !password || !confirmPassword) {
-      errorMsg.innerHTML = "Please fill in all fields.";
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      errorMsg.innerHTML = "Passwords do not match.";
-      return;
-    }
-
-    var user = {
-      fullname,
-      username,
-      email,
-      password
-    };
-
-    localStorage.setItem("user", JSON.stringify(user));
-
-    successMsg.innerHTML = "Account created successfully!";
-
-    setTimeout(() => {
-      window.location.href = "login.html";
-    }, 1500);
-  }
-</script>
-
+<script src="JS/auth.js"></script>
 </html>
