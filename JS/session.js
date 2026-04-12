@@ -25,9 +25,6 @@ NOTES FOR TEAM:
 - Only logged in users can log sessions and view history
 */
 
-
-
-
 const API_KEY = "AIzaSyAhkm6Xqp69bHjQCxhUwy9zlb5Mt8McFGk";
 function isLoggedIn() {
   return localStorage.getItem("isLoggedIn") === "true";
