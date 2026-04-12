@@ -12,4 +12,26 @@ RESPONSIBILITIES:
 NOTES FOR TEAM:
 - Keep this page simple and visually appealing
 - Do NOT include any protected (logged in only) content here
+- Kimkio pls leave the js i put at the end of the code right b4 the end of the body there for the PWA to work, thx <3  
 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('PWA/service-worker.js')
+        .then(reg => console.log('Service Worker Registered!'))
+        .catch(err => console.log('Service Worker registration failed: ', err));
+    });
+  }
+</script>
+</body>
+</html>

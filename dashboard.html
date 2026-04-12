@@ -327,5 +327,14 @@ NOTES FOR TEAM:
         </div>
     </div>
     <script src="JS/dashboard.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+            navigator.serviceWorker.register('PWA/service-worker.js')
+                .then(reg => console.log('Service Worker Registered!'))
+                .catch(err => console.log('Service Worker registration failed: ', err));
+            });
+        }
+    </script>
 </body>
 </html>
