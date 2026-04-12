@@ -468,6 +468,122 @@ NOTES FOR TEAM:
       white-space: nowrap;
     }
     .btn-unfav:hover { background: var(--brown); border-color: var(--brown); }
+    
+.mood-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 0;
+}
+.mood-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1.5px solid #cddce8;
+  border-radius: 10px;
+  background: #F7F8F0;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c2c2c;
+  transition: all 0.2s;
+  text-align: left;
+}
+.mood-btn:hover { border-color: #7AAACE; background: #ffffff; color: #355872; }
+.mood-card {
+  background: #ffffff;
+  border: 1px solid #cddce8;
+  border-radius: 14px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.mood-toggle-btn {
+  width: 100%;
+  padding: 20px 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: left;
+  transition: background 0.25s;
+}
+.mood-toggle-btn.open { background: #355872; }
+.mood-toggle-left { display: flex; align-items: center; gap: 14px; }
+.mood-toggle-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #AACDDC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  transition: background 0.25s;
+}
+.mood-toggle-btn.open .mood-toggle-icon { background: rgba(255,255,255,0.15); }
+.mood-toggle-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #355872;
+  transition: color 0.25s;
+}
+.mood-toggle-btn.open .mood-toggle-title { color: #ffffff; }
+.mood-toggle-sub {
+  font-size: 13px;
+  color: #6b6b6b;
+  margin-top: 2px;
+  transition: color 0.25s;
+}
+.mood-toggle-btn.open .mood-toggle-sub { color: rgba(255,255,255,0.7); }
+.mood-arrow {
+  font-size: 16px;
+  color: #355872;
+  transition: transform 0.3s, color 0.25s;
+  display: inline-block;
+}
+.mood-toggle-btn.open .mood-arrow { transform: rotate(180deg); color: #ffffff; }
+
+#mood-body { display: none; padding: 0 28px 28px; }
+.mood-btn.active { border-color: #355872; background: #355872; color: #ffffff; }
+.mood-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  background: #AACDDC;
+}
+.mood-btn.active .mood-icon { background: rgba(255,255,255,0.15); }
+.mood-label { line-height: 1.2; }
+.mood-label span { display: block; font-size: 12px; font-weight: 400; color: #6b6b6b; margin-top: 1px; }
+.mood-btn.active .mood-label span { color: rgba(255,255,255,0.7); }
+.mood-player { margin-top: 16px; border: 1.5px solid #cddce8; border-radius: 10px; overflow: hidden; background: #F7F8F0; }
+.mood-player-label { font-size: 12px; font-weight: 600; color: #6b6b6b; text-transform: uppercase; letter-spacing: 0.07em; padding: 10px 14px 6px; }
+.mood-player iframe { display: block; width: 100%; border: none; }
+.mood-player-hint { font-size: 12px; color: #6b6b6b; font-style: italic; padding: 6px 14px 10px; }
+.spotify-own-wrap { margin-top: 16px; border: 1.5px solid #cddce8; border-radius: 10px; background: #F7F8F0; overflow: hidden; }
+.spotify-own-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px 8px; }
+.spotify-logo { width: 22px; height: 22px; flex-shrink: 0; }
+.spotify-own-title { font-size: 14px; font-weight: 700; color: #2c2c2c; }
+.spotify-own-sub { font-size: 13px; color: #6b6b6b; padding: 0 14px 10px; }
+.spotify-input-row { display: flex; gap: 8px; padding: 0 14px 12px; }
+.spotify-input-row input { flex: 1; padding: 8px 11px; font-size: 13px; }
+.btn-load-spotify { padding: 8px 16px; background: #1DB954; border: none; border-radius: 8px; color: #ffffff; font-family: 'Segoe UI', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+.btn-load-spotify:hover { background: #17a349; }
+.spotify-embed-area { padding: 0 14px 14px; }
+.spotify-embed-area iframe { display: block; width: 100%; border-radius: 10px; border: none; }
+.spotify-embed-placeholder { border: 1.5px dashed #cddce8; border-radius: 8px; padding: 20px; text-align: center; font-size: 13px; color: #6b6b6b; font-style: italic; }
+@media (max-width: 500px) { .mood-grid { grid-template-columns: 1fr; } }
 
     @media (max-width: 500px) {
       .form-row { grid-template-columns: 1fr; }
@@ -560,17 +676,119 @@ NOTES FOR TEAM:
     </div>
 
     <div id="log-btn-wrap"></div>
+  <div class="mood-card">
+  <button class="mood-toggle-btn" id="mood-toggle-btn" onclick="toggleMood()">
+    <div class="mood-toggle-left">
+      <div class="mood-toggle-icon">🎵</div>
+      <div>
+        <div class="mood-toggle-title">Set Your Mood</div>
+        <div class="mood-toggle-sub">Music to help you focus</div>
+      </div>
+    </div>
+    <span class="mood-arrow" id="mood-arrow">&#9660;</span>
+  </button>
+<div id="mood-body" style="display: none; padding: 0 28px 28px;">
+    <div class="section">
+      <p style="font-size: 13px; color: #6b6b6b; margin-bottom: 12px;">Pick a vibe — we'll queue up a soothing YouTube mix for you</p>
+      <div class="mood-grid">
+        <button class="mood-btn active" onclick="setMood(this,'lofi')">
+          <div class="mood-icon">&#127911;</div>
+          <div class="mood-label">Lo-fi Beats<span>Chill hip-hop focus</span></div>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'classical')">
+          <div class="mood-icon">&#127908;</div>
+          <div class="mood-label">Classical<span>Piano &amp; orchestral calm</span></div>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'nature')">
+          <div class="mood-icon">&#127807;</div>
+          <div class="mood-label">Nature Sounds<span>Rain, forest &amp; waves</span></div>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'ambient')">
+          <div class="mood-icon">&#10024;</div>
+          <div class="mood-label">Ambient / Space<span>Deep focus drones</span></div>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'jazz')">
+          <div class="mood-icon">&#127926;</div>
+          <div class="mood-label">Jazz Café<span>Smooth background jazz</span></div>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'binaural')">
+          <div class="mood-icon">&#129504;</div>
+          <div class="mood-label">Binaural Beats<span>Deep alpha focus waves</span></div>
+        </button>
+      </div>
+      <div class="mood-player">
+        <div class="mood-player-label" id="mood-player-label">Now playing — Lo-fi Beats</div>
+        <iframe id="mood-iframe" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=0&controls=1&rel=0" height="200" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="mood-player-hint">Opens in YouTube if your browser blocks the embed</div>
+      </div>
+    </div>
 
+    <hr class="divider"/>
+
+    <div class="section">
+      <h2 class="section-title">Make It Your Own</h2>
+      <p class="section-sub">Paste any Spotify playlist, album, or track link to play it here</p>
+      <div class="spotify-own-wrap">
+        <div class="spotify-own-header">
+          <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954">
+            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.623.623 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.623.623 0 01-.277-1.215c3.809-.87 7.077-.496 9.712 1.115a.623.623 0 01.207.857zm1.223-2.722a.78.78 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.78.78 0 01-.45-1.493c3.632-1.102 8.147-.568 11.23 1.329a.78.78 0 01.257 1.073zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.937.937 0 11-.543-1.793c3.563-1.08 9.484-.87 13.22 1.37a.937.937 0 01-.946 1.62l-.114-.04z"/>
+          </svg>
+          <span class="spotify-own-title">Your Spotify</span>
+        </div>
+        <p class="spotify-own-sub">e.g. https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M</p>
+        <div class="spotify-input-row">
+          <input type="text" id="spotify-link-input" placeholder="Paste Spotify link here..."/>
+          <button class="btn-load-spotify" onclick="loadSpotify()">Load</button>
+        </div>
+        <div class="spotify-embed-area">
+          <div class="spotify-embed-placeholder" id="spotify-placeholder">Your playlist will appear here after you paste a link and click Load</div>
+          <div id="spotify-embed-container"></div>
+          <hr class="divider"/>
+
+<div class="section">
+  <h2 class="section-title">Your Own YouTube</h2>
+  <p class="section-sub">Paste any YouTube video or playlist link to play it here</p>
+  <div style="border: 1.5px solid #cddce8; border-radius: 10px; background: #F7F8F0; overflow: hidden;">
+    <p style="font-size: 13px; color: #6b6b6b; padding: 12px 14px 8px;">e.g. https://www.youtube.com/watch?v=... or a playlist link</p>
+    <div style="display: flex; gap: 8px; padding: 0 14px 12px;">
+      <input type="text" id="yt-link-input" placeholder="Paste YouTube link here..."/>
+      <button onclick="loadYoutube()" style="padding: 8px 16px; background: #FF0000; border: none; border-radius: 8px; color: #ffffff; font-family: 'Segoe UI', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;">Load</button>
+    </div>
+    <div style="padding: 0 14px 14px;">
+      <div id="yt-placeholder" style="border: 1.5px dashed #cddce8; border-radius: 8px; padding: 20px; text-align: center; font-size: 13px; color: #6b6b6b; font-style: italic;">Your video or playlist will appear here</div>
+      <div id="yt-embed-container"></div>
+    </div>
   </div>
+</div>
 
-  <div class="favourites-section">
+<hr class="divider"/>
+
+<div class="section">
+  <h2 class="section-title">Your Apple Music</h2>
+  <p class="section-sub">Paste an Apple Music album or playlist link to embed it here</p>
+  <div style="border: 1.5px solid #cddce8; border-radius: 10px; background: #F7F8F0; overflow: hidden;">
+    <p style="font-size: 13px; color: #6b6b6b; padding: 12px 14px 8px;">e.g. https://music.apple.com/us/playlist/...</p>
+    <div style="display: flex; gap: 8px; padding: 0 14px 12px;">
+      <input type="text" id="apple-link-input" placeholder="Paste Apple Music link here..."/>
+      <button onclick="loadAppleMusic()" style="padding: 8px 16px; background: #fc3c44; border: none; border-radius: 8px; color: #ffffff; font-family: 'Segoe UI', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;">Load</button>
+    </div>
+    <div style="padding: 0 14px 14px;">
+      <div id="apple-placeholder" style="border: 1.5px dashed #cddce8; border-radius: 8px; padding: 20px; text-align: center; font-size: 13px; color: #6b6b6b; font-style: italic;">Your Apple Music playlist will appear here</div>
+      <div id="apple-embed-container"></div>
+    </div>
+  </div>
+</div>
+</div>
+    </div>
+  </div> 
+</div>  
+
+<div class="favourites-section">
     <h2 class="favourites-title">My Favourites</h2>
     <div id="favourites-list">
       <p class="fav-empty">No favourites yet. Search for a book and click "Fav" to save it here.</p>
     </div>
   </div>
-
-</div>
 
 <script src="JS/auth.js"></script>
 <script src="JS/storage.js"></script>
