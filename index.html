@@ -18,20 +18,641 @@ NOTES FOR TEAM:
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FocusFour</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #EBF5FA;
+      margin: 0; padding: 0;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* simple fade in animation */
+    .fade-in {
+      animation: fadeInUp 0.8s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    /* delays for each element */
+    .d1 { animation-delay: 0.05s; }
+    .d2 { animation-delay: 0.15s; }
+    .d3 { animation-delay: 0.25s; }
+    .d4 { animation-delay: 0.35s; }
+
+    /* navbar style */
+    .navbar {
+      background-color: #5C3D2E;
+      padding: 13px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      position: sticky; top: 0; z-index: 999;
+    }
+    .navbar-brand {
+      font-weight: bold; font-size: 1.25rem;
+      color: #C8E6F0 !important;
+      display: flex;
+      align-items: center;
+    }
+    .navbar-brand img {
+      height: 32px;
+      width: auto;
+      margin-right: 8px;
+    }
+    
+    .navbar-nav {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      align-items: center;
+    }
+    .navbar-nav .nav-link {
+      color: #C8E6F0 !important;
+      border: 1.5px solid #89C4DA;
+      border-radius: 6px;
+      padding: 6px 18px !important;
+      margin-left: 0;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .navbar-nav .nav-link:hover {
+      background-color: #89C4DA;
+      color: #3A2218 !important;
+    }
+    /* on mobile, menu stacks vertically */
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        background-color: #5C3D2E;
+        padding: 12px;
+        border-radius: 8px;
+        margin-top: 8px;
+      }
+      .navbar-nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .navbar-nav .nav-link {
+        text-align: center;
+      }
+    }
+    .navbar-toggler { border-color: #89C4DA; }
+
+    /* hero section */
+    .hero-section {
+      background: linear-gradient(135deg, #C8E6F0 0%, #EBF5FA 100%);
+      padding: 55px 30px 45px;
+      border-bottom: 3px solid #89C4DA;
+    }
+    .hero-section h1 {
+      font-size: 1.9rem; font-weight: bold;
+      color: #3A2218; line-height: 1.35;
+      margin-bottom: 10px;
+    }
+    .hero-section p { color: #5C3D2E; font-size: 0.98rem; margin: 0; }
+    .hero-logo-box {
+      background-color: white;
+      border: 2px solid #89C4DA;
+      border-radius: 14px;
+      padding: 18px; text-align: center;
+      box-shadow: 0 4px 16px rgba(46,125,154,0.14);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .hero-logo-box:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(46,125,154,0.22);
+    }
+    .hero-logo-box img { max-width: 100%; height: 190px; object-fit: contain; }
+
+    /* small strip */
+    .simple-strip {
+      background-color: #5C3D2E;
+      text-align: center; padding: 11px;
+      font-size: 0.93rem; color: #C8E6F0;
+      letter-spacing: 0.5px;
+    }
+
+    /* how it works boxes */
+    .how-section { background-color: #F5EDE4; padding: 48px 20px; scroll-margin-top: 80px; }
+    .how-section h2 {
+      text-align: center; font-weight: bold;
+      color: #3A2218; font-size: 1.65rem; margin-bottom: 4px;
+    }
+    .how-subtitle {
+      text-align: center; color: #8B6145;
+      font-size: 0.9rem; margin-bottom: 26px;
+    }
+
+    .step-row {
+      background-color: white;
+      border: 1.5px solid #E8D5C0;
+      border-left: 5px solid #5C3D2E;
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(92,61,46,0.07);
+      transition: border-left-color 0.25s, box-shadow 0.25s, transform 0.2s;
+    }
+    .step-row:hover {
+      border-left-color: #2E7D9A;
+      box-shadow: 0 5px 18px rgba(46,125,154,0.14);
+      transform: translateX(4px);
+    }
+    .step-row.open {
+      border-left-color: #2E7D9A;
+      box-shadow: 0 5px 18px rgba(46,125,154,0.16);
+    }
+    .step-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+    }
+    .step-circle {
+      width: 44px; height: 44px; border-radius: 50%;
+      background-color: #5C3D2E; color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; font-size: 1.05rem; flex-shrink: 0;
+      transition: background-color 0.25s, transform 0.25s;
+    }
+    .step-row:hover .step-circle,
+    .step-row.open .step-circle {
+      background-color: #2E7D9A;
+      transform: scale(1.08);
+    }
+    .step-body p {
+      margin: 0;
+      font-size: 1rem;
+      color: #3A2218;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    /* hidden detail text that appears when clicked */
+    .step-detail {
+      font-size: 0.85rem;
+      color: #8B6145;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease, margin-top 0.25s;
+    }
+    .step-row.open .step-detail {
+      max-height: 100px;
+      margin-top: 8px;
+    }
+    .step-illus {
+      background-color: #EBF5FA;
+      border: 1.5px solid #89C4DA;
+      border-radius: 8px; padding: 8px 10px;
+      display: flex; align-items: center;
+      justify-content: center; min-width: 88px; flex-shrink: 0;
+    }
+    .step-arrow {
+      font-size: 0.85rem; color: #89C4DA;
+      margin-left: 10px; flex-shrink: 0;
+      transition: transform 0.3s, color 0.25s;
+    }
+    .step-row.open .step-arrow { transform: rotate(90deg); color: #2E7D9A; }
+
+    /* responsive for small screens */
+    @media (max-width: 576px) {
+      .step-row {
+        flex-wrap: wrap;
+        padding: 16px;
+      }
+      .step-left {
+        flex: 1 1 100%;
+        margin-bottom: 10px;
+      }
+      .step-illus {
+        min-width: 70px;
+      }
+      .step-detail {
+        font-size: 0.8rem;
+      }
+      .step-row.open .step-detail {
+        max-height: 120px;
+      }
+    }
+
+    /* features section */
+    .features-section { background-color: #EBF5FA; padding: 48px 20px; }
+    .features-section h2 {
+      text-align: center; font-weight: bold;
+      color: #3A2218; font-size: 1.65rem; margin-bottom: 4px;
+    }
+    .feat-subtitle {
+      text-align: center; color: #8B6145;
+      font-size: 0.9rem; margin-bottom: 26px;
+    }
+
+    .feat-card {
+      background-color: white;
+      border: 1.5px solid #C8E6F0;
+      border-top: 4px solid #2E7D9A;
+      border-radius: 10px;
+      padding: 20px 16px; height: 100%;
+      box-shadow: 0 2px 8px rgba(46,125,154,0.08);
+      transition: transform 0.25s, box-shadow 0.25s, border-top-color 0.25s;
+      display: block; text-decoration: none; color: inherit;
+    }
+    .feat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 26px rgba(46,125,154,0.16);
+      border-top-color: #5C3D2E;
+      color: inherit;
+    }
+    .feat-card .illus-box {
+      background-color: #EBF5FA;
+      border: 1px solid #89C4DA;
+      border-radius: 8px; padding: 10px;
+      display: inline-flex; align-items: center;
+      justify-content: center; margin-bottom: 12px;
+      transition: background-color 0.25s;
+    }
+    .feat-card:hover .illus-box { background-color: #C8E6F0; }
+    .feat-card h5 {
+      font-weight: bold; color: #3A2218;
+      margin-bottom: 12px; font-size: 0.97rem;
+    }
+    .go-btn {
+      background-color: #5C3D2E; border: none;
+      border-radius: 6px; padding: 6px 22px;
+      font-size: 0.83rem; color: white;
+      text-decoration: none; display: inline-block;
+      transition: background-color 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+    .go-btn:hover {
+      background-color: #2E7D9A; color: white;
+      transform: scale(1.06);
+    }
+
+    /* history card with static chart */
+    .history-card {
+      background-color: white;
+      border: 1.5px solid #C8E6F0;
+      border-top: 4px solid #89C4DA;
+      border-radius: 10px;
+      padding: 20px; margin-top: 14px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 14px;
+      box-shadow: 0 2px 8px rgba(46,125,154,0.08);
+      transition: box-shadow 0.25s;
+    }
+    .history-card:hover { box-shadow: 0 8px 24px rgba(46,125,154,0.14); }
+    .history-left { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+    .history-left .illus-box {
+      background-color: #EBF5FA; border: 1px solid #89C4DA;
+      border-radius: 8px; padding: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .history-left h5 { font-weight: bold; color: #3A2218; margin-bottom: 12px; font-size: 0.97rem; }
+    .hist-btn {
+      background-color: #5C3D2E; border: none; border-radius: 6px;
+      padding: 6px 16px; font-size: 0.83rem; color: white;
+      text-decoration: none; display: inline-block;
+      margin-right: 8px; transition: background-color 0.2s;
+    }
+    .hist-btn:hover { background-color: #2E7D9A; color: white; }
+    .hist-btn-outline {
+      background-color: transparent; border: 1.5px solid #89C4DA;
+      border-radius: 6px; padding: 5px 16px; font-size: 0.83rem;
+      color: #2E7D9A; text-decoration: none; display: inline-block;
+      transition: all 0.2s;
+    }
+    .hist-btn-outline:hover { background-color: #C8E6F0; color: #1A4F63; }
+
+    /* footer */
+    footer {
+      background-color: #3A2218; color: #C8E6F0;
+      text-align: center; padding: 22px 20px;
+      font-size: 0.88rem; margin-top: 50px;
+    }
+    footer a { color: #89C4DA; margin: 0 10px; text-decoration: none; }
+    footer a:hover { color: white; }
+  </style>
 </head>
 <body>
 
-    <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('PWA/service-worker.js')
-        .then(reg => console.log('Service Worker Registered!'))
-        .catch(err => console.log('Service Worker registration failed: ', err));
-    });
-  }
-</script>
+  <!-- navbar with logo -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="logo.png" />
+        FocusFour
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#how-it-works">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- hero section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-md-6 fade-in">
+          <h1>Track your studying,<br/>hit your goals.</h1>
+          <p>Simple, focused, and built for students who want to stay on top of their work.</p>
+        </div>
+        <div class="col-md-6 fade-in d2">
+          <div class="hero-logo-box">
+            <img src="logo.png" alt="FocusFour Logo" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- simple strip -->
+  <div class="simple-strip">Simple, fast, free to use.</div>
+
+  <!-- how it works section -->
+  <section class="how-section" id="how-it-works">
+    <div class="container">
+      <h2 class="fade-in">How it Works</h2>
+      <p class="how-subtitle fade-in d1">Start studying in 4 easy steps — click each one to learn more</p>
+
+      <!-- step 1 -->
+      <div class="step-row fade-in d1" onclick="toggleStep(this)">
+        <div class="step-left">
+          <div class="step-circle">1</div>
+          <div class="step-body">
+            <p>Search for your book</p>
+            <div class="step-detail">Type in any subject or book title and find it instantly from our library.</div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="step-illus">
+            <svg width="68" height="46" viewBox="0 0 68 46">
+              <rect x="4" y="6" width="34" height="32" rx="3" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.5"/>
+              <line x1="21" y1="6" x2="21" y2="38" stroke="#2E7D9A" stroke-width="1.3"/>
+              <line x1="8" y1="13" x2="19" y2="13" stroke="#89C4DA" stroke-width="1.1"/>
+              <line x1="8" y1="18" x2="19" y2="18" stroke="#89C4DA" stroke-width="1.1"/>
+              <line x1="8" y1="23" x2="17" y2="23" stroke="#89C4DA" stroke-width="1.1"/>
+              <line x1="23" y1="13" x2="35" y2="13" stroke="#89C4DA" stroke-width="1.1"/>
+              <line x1="23" y1="18" x2="35" y2="18" stroke="#89C4DA" stroke-width="1.1"/>
+              <line x1="23" y1="23" x2="33" y2="23" stroke="#89C4DA" stroke-width="1.1"/>
+              <circle cx="52" cy="20" r="10" fill="none" stroke="#5C3D2E" stroke-width="2.2"/>
+              <line x1="59" y1="27" x2="65" y2="34" stroke="#5C3D2E" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="step-arrow">&#9658;</span>
+        </div>
+      </div>
+
+      <!-- step 2 -->
+      <div class="step-row fade-in d2" onclick="toggleStep(this)">
+        <div class="step-left">
+          <div class="step-circle">2</div>
+          <div class="step-body">
+            <p>Set your study goal &amp; set a timer</p>
+            <div class="step-detail">Set your target duration and subject — the timer keeps you honest.</div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="step-illus">
+            <svg width="68" height="46" viewBox="0 0 68 46">
+              <circle cx="22" cy="23" r="17" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.8"/>
+              <circle cx="22" cy="23" r="2" fill="#5C3D2E"/>
+              <line x1="22" y1="23" x2="22" y2="10" stroke="#5C3D2E" stroke-width="2" stroke-linecap="round"/>
+              <line x1="22" y1="23" x2="31" y2="27" stroke="#8B6145" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="52" cy="23" r="12" fill="none" stroke="#C49A72" stroke-width="1.6"/>
+              <circle cx="52" cy="23" r="7" fill="none" stroke="#8B6145" stroke-width="1.6"/>
+              <circle cx="52" cy="23" r="3" fill="#5C3D2E"/>
+            </svg>
+          </div>
+          <span class="step-arrow">&#9658;</span>
+        </div>
+      </div>
+
+      <!-- step 3 -->
+      <div class="step-row fade-in d3" onclick="toggleStep(this)">
+        <div class="step-left">
+          <div class="step-circle">3</div>
+          <div class="step-body">
+            <p>Session logs automatically</p>
+            <div class="step-detail">When time is up, your session is saved automatically — no extra steps needed.</div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="step-illus">
+            <svg width="68" height="46" viewBox="0 0 68 46">
+              <rect x="10" y="4" width="28" height="36" rx="3" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.5"/>
+              <rect x="17" y="1" width="14" height="7" rx="3" fill="#5C3D2E"/>
+              <line x1="15" y1="16" x2="33" y2="16" stroke="#89C4DA" stroke-width="1.2"/>
+              <line x1="15" y1="22" x2="33" y2="22" stroke="#89C4DA" stroke-width="1.2"/>
+              <line x1="15" y1="28" x2="26" y2="28" stroke="#89C4DA" stroke-width="1.2"/>
+              <circle cx="52" cy="28" r="11" fill="#5C3D2E"/>
+              <polyline points="46,28 50,33 58,22" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="step-arrow">&#9658;</span>
+        </div>
+      </div>
+
+      <!-- step 4 -->
+      <div class="step-row fade-in d4" onclick="toggleStep(this)">
+        <div class="step-left">
+          <div class="step-circle">4</div>
+          <div class="step-body">
+            <p>View your history &amp; Progress</p>
+            <div class="step-detail">Head to your dashboard to see streaks, charts and weekly goal completion.</div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="step-illus">
+            <svg width="68" height="46" viewBox="0 0 68 46">
+              <rect x="6" y="30" width="10" height="12" rx="2" fill="#89C4DA"/>
+              <rect x="20" y="20" width="10" height="22" rx="2" fill="#2E7D9A"/>
+              <rect x="34" y="12" width="10" height="30" rx="2" fill="#5C3D2E"/>
+              <rect x="48" y="18" width="10" height="24" rx="2" fill="#8B6145"/>
+              <line x1="4" y1="42" x2="62" y2="42" stroke="#C49A72" stroke-width="1.4"/>
+              <polyline points="11,30 25,20 39,12 53,18" fill="none" stroke="#C49A72" stroke-width="1.8" stroke-dasharray="3,2"/>
+            </svg>
+          </div>
+          <span class="step-arrow">&#9658;</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- everything you need (features) -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <h2 class="fade-in">Everything you need</h2>
+      <p class="feat-subtitle fade-in d1">Built for students who want to stay on track</p>
+
+      <div class="row g-3">
+        <!-- log a session card -->
+        <div class="col-6 fade-in d1">
+          <a href="session.html" class="feat-card">
+            <div class="illus-box">
+              <svg width="54" height="42" viewBox="0 0 54 42">
+                <rect x="6" y="2" width="26" height="34" rx="3" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.5"/>
+                <rect x="14" y="0" width="12" height="6" rx="3" fill="#5C3D2E"/>
+                <line x1="11" y1="14" x2="27" y2="14" stroke="#89C4DA" stroke-width="1.2"/>
+                <line x1="11" y1="20" x2="27" y2="20" stroke="#89C4DA" stroke-width="1.2"/>
+                <line x1="11" y1="26" x2="20" y2="26" stroke="#89C4DA" stroke-width="1.2"/>
+                <rect x="32" y="16" width="6" height="18" rx="2" transform="rotate(-35 32 16)" fill="#8B6145"/>
+                <polygon points="34,34 38,32 36,38" fill="#5C3D2E"/>
+              </svg>
+            </div>
+            <h5>Log a Session</h5>
+            <span class="go-btn">Go</span>
+          </a>
+        </div>
+
+        <!-- dashboard card -->
+        <div class="col-6 fade-in d2">
+          <a href="dashboard.html" class="feat-card">
+            <div class="illus-box">
+              <svg width="54" height="42" viewBox="0 0 54 42">
+                <rect x="2" y="2" width="50" height="38" rx="4" fill="#EBF5FA" stroke="#2E7D9A" stroke-width="1.5"/>
+                <rect x="2" y="2" width="50" height="10" rx="4" fill="#2E7D9A"/>
+                <circle cx="8" cy="7" r="2" fill="#C8E6F0"/>
+                <circle cx="15" cy="7" r="2" fill="#89C4DA"/>
+                <rect x="8" y="28" width="8" height="10" rx="1" fill="#89C4DA"/>
+                <rect x="20" y="20" width="8" height="18" rx="1" fill="#2E7D9A"/>
+                <rect x="32" y="15" width="8" height="23" rx="1" fill="#5C3D2E"/>
+                <rect x="44" y="22" width="6" height="16" rx="1" fill="#8B6145"/>
+              </svg>
+            </div>
+            <h5>My Dashboard</h5>
+            <span class="go-btn">Go</span>
+          </a>
+        </div>
+
+        <!-- login card -->
+        <div class="col-6 fade-in d3">
+          <a href="login.html" class="feat-card">
+            <div class="illus-box">
+              <svg width="54" height="42" viewBox="0 0 54 42">
+                <circle cx="20" cy="12" r="8" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.5"/>
+                <path d="M6 38 Q6 26 20 26 Q34 26 34 38" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.5"/>
+                <circle cx="44" cy="18" r="7" fill="none" stroke="#5C3D2E" stroke-width="2"/>
+                <line x1="49" y1="23" x2="54" y2="30" stroke="#5C3D2E" stroke-width="2" stroke-linecap="round"/>
+                <line x1="52" y1="28" x2="50" y2="31" stroke="#5C3D2E" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h5>Login</h5>
+            <span class="go-btn">Go</span>
+          </a>
+        </div>
+
+        <!-- register card -->
+        <div class="col-6 fade-in d4">
+          <a href="register.html" class="feat-card">
+            <div class="illus-box">
+              <svg width="54" height="42" viewBox="0 0 54 42">
+                <circle cx="18" cy="12" r="8" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.5"/>
+                <path d="M4 38 Q4 26 18 26 Q32 26 32 38" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.5"/>
+                <circle cx="44" cy="22" r="10" fill="#5C3D2E"/>
+                <line x1="44" y1="16" x2="44" y2="28" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="38" y1="22" x2="50" y2="22" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h5>Register</h5>
+            <span class="go-btn">Go</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- study history card with static chart  -->
+      <div class="history-card fade-in">
+        <div class="history-left">
+          <div class="illus-box">
+            <svg width="42" height="42" viewBox="0 0 42 42">
+              <path d="M3 10 Q3 8 5 8 L18 9 L18 34 L5 33 Q3 33 3 31 Z" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.3"/>
+              <path d="M39 10 Q39 8 37 8 L24 9 L24 34 L37 33 Q39 33 39 31 Z" fill="#C8E6F0" stroke="#2E7D9A" stroke-width="1.3"/>
+              <rect x="18" y="8" width="6" height="26" rx="1" fill="#8B6145"/>
+              <line x1="7" y1="14" x2="16" y2="14" stroke="#89C4DA" stroke-width="1"/>
+              <line x1="7" y1="18" x2="16" y2="18" stroke="#89C4DA" stroke-width="1"/>
+              <line x1="7" y1="22" x2="14" y2="22" stroke="#89C4DA" stroke-width="1"/>
+              <line x1="25" y1="14" x2="34" y2="14" stroke="#89C4DA" stroke-width="1"/>
+              <line x1="25" y1="18" x2="34" y2="18" stroke="#89C4DA" stroke-width="1"/>
+              <line x1="25" y1="22" x2="32" y2="22" stroke="#89C4DA" stroke-width="1"/>
+            </svg>
+          </div>
+          <div>
+            <h5>Study History</h5>
+            <a href="dashboard.html" class="hist-btn">View History</a>
+            <a href="login.html" class="hist-btn-outline">Login Required</a>
+          </div>
+        </div>
+
+        <!-- static bar chart with fixed heights -->
+        <svg width="130" height="86" viewBox="0 0 130 86" style="flex-shrink:0;">
+          <rect width="130" height="86" rx="8" fill="#EBF5FA"/>
+          <line x1="8" y1="18" x2="122" y2="18" stroke="#C8E6F0" stroke-width="1"/>
+          <line x1="8" y1="34" x2="122" y2="34" stroke="#C8E6F0" stroke-width="1"/>
+          <line x1="8" y1="50" x2="122" y2="50" stroke="#C8E6F0" stroke-width="1"/>
+          <line x1="8" y1="66" x2="122" y2="66" stroke="#C8E6F0" stroke-width="1"/>
+          <rect x="12" y="38" width="12" height="28" rx="2" fill="#89C4DA"/>
+          <rect x="28" y="26" width="12" height="40" rx="2" fill="#2E7D9A"/>
+          <rect x="44" y="18" width="12" height="48" rx="2" fill="#5C3D2E"/>
+          <rect x="60" y="32" width="12" height="34" rx="2" fill="#8B6145"/>
+          <rect x="76" y="10" width="12" height="56" rx="2" fill="#2E7D9A"/>
+          <rect x="92" y="24" width="12" height="42" rx="2" fill="#89C4DA"/>
+          <polyline points="18,38 34,26 50,18 66,32 82,10 98,24" fill="none" stroke="#C49A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="8" y="80" font-size="7" fill="#8B6145" font-family="Arial">M    T    W    T    F    S</text>
+        </svg>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer>
+    <p>&copy; 2025 FocusFour. Built for learners.</p>
+    <a href="login.html">Login</a>
+    <a href="register.html">Register</a>
+    <a href="session.html">Session Logger</a>
+    <a href="dashboard.html">Dashboard</a>
+  </footer>
+
+  
+  <script>
+    // simple function to open/close step details when clicked
+    function toggleStep(el) {
+      const wasOpen = el.classList.contains('open');
+      // close all other steps first
+      document.querySelectorAll('.step-row').forEach(r => r.classList.remove('open'));
+      // if it wasn't open, open this one
+      if (!wasOpen) el.classList.add('open');
+    }
+  </script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('PWA/service-worker.js')
+          .then(reg => console.log('Service Worker Registered!'))
+          .catch(err => console.log('Service Worker registration failed: ', err));
+      });
+    }
+  </script>
+
 </body>
 </html>
