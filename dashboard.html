@@ -329,7 +329,6 @@ NOTES FOR TEAM:
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Point this to where your service worker file is located
                 navigator.serviceWorker.register('PWA/service-worker.js', { scope: '/' })
                     .then(reg => console.log('Service Worker Registered! Scope is: ', reg.scope))
                     .catch(err => console.log('Service Worker registration failed: ', err));
