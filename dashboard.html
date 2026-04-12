@@ -194,6 +194,63 @@ NOTES FOR TEAM:
             color: #C08552;
             font-weight: bold;
         }
+
+        .history-item {
+  background: #fff;
+  border: 1px solid #AACDDC;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.history-item-info {
+  flex: 1;
+}
+
+.history-item-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #355872;
+  margin-bottom: 4px;
+}
+
+.history-item-meta {
+  font-size: 0.82rem;
+  color: #7AAACE;
+  margin-bottom: 2px;
+}
+
+.delete-btn {
+  background: transparent;
+  border: 1.5px solid #C08552;
+  color: #C08552;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.delete-btn:hover {
+  background: #C08552;
+  color: white;
+}
+
+.history-container {
+  margin-bottom: 32px;
+}
+
+.history-container h3 {
+  margin-bottom: 16px;
+  color: #355872;
+}
     </style>
 </head>
 <body>
@@ -251,6 +308,15 @@ NOTES FOR TEAM:
                 </div>
                 <div id="searchResults" class="results-list"></div>
             </section>
+
+<section class="history-container">
+  <h3>My Study History</h3>
+  <div id="historyList" class="book-list">
+    <div class="empty-state">No sessions logged yet.</div>
+  </div>
+</section>
+
+<hr style="border: none; border-top: 1px solid #AACDDC; margin: 24px 0;"/>
 
             <section class="favorites-container">
                 <h3>My Favourite Books</h3>

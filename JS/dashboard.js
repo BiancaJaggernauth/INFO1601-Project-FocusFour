@@ -134,8 +134,103 @@ function logoutUser(){
 }
 
 function loadMockStats(){
-  document.querySelector("#stat-sessions").innerText = "24";
-  document.querySelector("#stat-hours").innerText   = "58.2";
-  document.querySelector("#stat-week").innerText    = "6";
-  document.querySelector("#stat-longest").innerText = "Apr 05";
+  loadRealStats();
+  loadSessionHistory();
+}
+
+function getSessions(){
+  return JSON.parse(localStorage.getItem("sessions") || "[]");
+}
+
+function saveSessions(sessions){
+  localStorage.setItem("sessions", JSON.stringify(sessions));
+}
+
+function loadRealStats(){
+  const sessions = getSessions();
+
+  // total sessions
+  document.querySelector("#stat-sessions").innerText = sessions.length;
+
+  // total hours — add up all durations
+  let totalMins = 0;
+  sessions.forEach(s => {
+    totalMins += parseInt(s.duration) || 0;
+  });
+  const totalHours = (totalMins / 60).toFixed(1);
+  document.querySelector("#stat-hours").innerText = totalHours;
+
+  // sessions this week
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  const thisWeek = sessions.filter(s => {
+    const sessionDate = new Date(s.date);
+    return sessionDate >= startOfWeek;
+  });
+  document.querySelector("#stat-week").innerText = thisWeek.length;
+
+  // longest session
+  if(sessions.length === 0){
+    document.querySelector("#stat-longest").innerText = "--";
+    return;
+  }
+
+  let longest = sessions.reduce((max, s) => {
+    return (parseInt(s.duration) || 0) > (parseInt(max.duration) || 0) ? s : max;
+  }, sessions[0]);
+
+  document.querySelector("#stat-longest").innerText = longest.duration
+    ? `${longest.duration} min`
+    : "--";
+}
+
+function loadSessionHistory(){
+  const sessions = getSessions();
+  const historyList = document.querySelector("#historyList");
+
+  if(sessions.length === 0){
+    historyList.innerHTML = `<div class="empty-state">No sessions logged yet.</div>`;
+    return;
+  }
+
+  historyList.innerHTML = "";
+
+  // show newest sessions first
+  const reversed = [...sessions].reverse();
+
+  reversed.forEach((session, i) => {
+    // real index in original array for deletion
+    const realIndex = sessions.length - 1 - i;
+
+    const item = document.createElement("div");
+    item.className = "history-item";
+    item.innerHTML = `
+      <div class="history-item-info">
+        <div class="history-item-title">${session.book || "No book selected"}</div>
+        <div class="history-item-meta">Subject: ${session.subject || "N/A"}</div>
+        <div class="history-item-meta">Duration: ${session.duration ? session.duration + " min" : "N/A"}</div>
+        <div class="history-item-meta">Date: ${session.date || "N/A"}</div>
+        <div class="history-item-meta">Goal: ${session.goal || "N/A"}</div>
+        ${session.notes ? `<div class="history-item-meta">Notes: ${session.notes}</div>` : ""}
+      </div>
+      <button class="delete-btn">Delete</button>
+    `;
+
+    item.querySelector(".delete-btn").addEventListener("click", function(){
+      deleteSession(realIndex);
+    });
+
+    historyList.appendChild(item);
+  });
+}
+
+function deleteSession(index){
+  let sessions = getSessions();
+  sessions.splice(index, 1);
+  saveSessions(sessions);
+  loadRealStats();
+  loadSessionHistory();
 }
