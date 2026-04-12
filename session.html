@@ -8,8 +8,571 @@ RESPONSIBILITIES:
 - Input: subject, duration, notes (just some suggestions)
 - Save session data to localStorage
 - Update sessions array
+- Search for books using API
 
 NOTES FOR TEAM:
 - This satisfies the "User Content" requirement outlined in the project spec
 - Make sure saved sessions appear in dashboard
 -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Focus Four — Log a Session</title>
+  <link rel="manifest" href="PWA/manifest.json"/>
+  <style>
+    :root {
+      --dark-blue:  #355872;
+      --mid-blue:   #7AAACE;
+      --light-blue: #9CD5FF;
+      --off-white:  #F7F8F0;
+      --muted-blue: #81A6C6;
+      --pale-blue:  #AACDDC;
+      --cream:      #F3E3D0;
+      --tan:        #D2C4B4;
+      --caramel:    #C08552;
+      --brown:      #8C5A3C;
+      --dark-brown: #4B2E2B;
+      --white:      #ffffff;
+      --text-dark:  #2c2c2c;
+      --text-muted: #6b6b6b;
+      --border:     #cddce8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    nav {
+      background: var(--dark-blue);
+      padding: 0 1.5rem;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--off-white);
+    }
+
+    .nav-right { display: flex; gap: 10px; }
+
+    .nav-btn {
+      padding: 6px 18px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Segoe UI', sans-serif;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .nav-btn-outline {
+      background: transparent;
+      border: 2px solid var(--off-white);
+      color: var(--off-white);
+    }
+    .nav-btn-outline:hover { background: var(--off-white); color: var(--dark-blue); }
+
+    .nav-btn-solid {
+      background: var(--caramel);
+      border: 2px solid var(--caramel);
+      color: var(--white);
+    }
+    .nav-btn-solid:hover { background: var(--brown); border-color: var(--brown); }
+
+    .page-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      color: var(--dark-blue);
+      margin-bottom: 6px;
+    }
+
+    .guest-notice {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .guest-notice a {
+      color: var(--dark-blue);
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section { margin-bottom: 1.5rem; }
+    .section:last-child { margin-bottom: 0; }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark-blue);
+      margin-bottom: 3px;
+    }
+
+    .section-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.5rem 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--off-white);
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--mid-blue);
+      background: var(--white);
+    }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    .field { margin-bottom: 1rem; }
+    .field:last-child { margin-bottom: 0; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .search-row input { flex: 1; }
+
+    .btn-search {
+      padding: 10px 20px;
+      background: var(--dark-blue);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .btn-search:hover { background: var(--muted-blue); }
+
+    #search-results {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--off-white);
+      min-height: 70px;
+    }
+
+    .results-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .book-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .book-card:last-child { border-bottom: none; }
+
+    .book-thumb {
+      width: 38px;
+      height: 52px;
+      object-fit: cover;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .book-thumb-placeholder {
+      width: 38px;
+      height: 52px;
+      background: var(--pale-blue);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .book-info { flex: 1; min-width: 0; }
+
+    .book-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .book-author {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .book-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .btn-fav {
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1.5px solid var(--tan);
+      background: var(--white);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Segoe UI', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-fav.active {
+      background: var(--caramel);
+      border-color: var(--caramel);
+      color: var(--white);
+    }
+
+    .btn-select {
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1.5px solid var(--mid-blue);
+      background: var(--white);
+      color: var(--dark-blue);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Segoe UI', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-select.active {
+      background: var(--dark-blue);
+      color: var(--white);
+    }
+
+    .timer-display {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--off-white);
+      padding: 1.25rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .timer-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .timer-count {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--dark-blue);
+      line-height: 1;
+    }
+    .timer-count.running { color: var(--caramel); }
+    .timer-count.done    { color: var(--brown); }
+
+    .timer-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    .timer-btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .btn-timer {
+      padding: 10px;
+      border-radius: 8px;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1.5px solid var(--border);
+      background: var(--off-white);
+      color: var(--text-dark);
+    }
+    .btn-timer:hover { border-color: var(--mid-blue); color: var(--dark-blue); }
+
+    #btn-start {
+      background: var(--dark-blue);
+      border-color: var(--dark-blue);
+      color: var(--white);
+    }
+    #btn-start:hover { background: var(--muted-blue); border-color: var(--muted-blue); }
+
+    .timer-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .btn-log {
+      width: 100%;
+      padding: 13px;
+      background: var(--dark-blue);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 1.25rem;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn-log:hover { background: var(--muted-blue); }
+
+    .btn-log.guest {
+      background: var(--tan);
+      color: var(--dark-brown);
+    }
+    .btn-log.guest:hover { background: var(--cream); }
+
+    .favourites-section { margin-top: 0.5rem; }
+
+    .favourites-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark-blue);
+      margin-bottom: 0.75rem;
+    }
+
+    .fav-empty {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .fav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      gap: 12px;
+    }
+
+    .fav-item-info { flex: 1; min-width: 0; }
+
+    .fav-item-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .fav-item-author {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .btn-unfav {
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--caramel);
+      background: var(--caramel);
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Segoe UI', sans-serif;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-unfav:hover { background: var(--brown); border-color: var(--brown); }
+
+    @media (max-width: 500px) {
+      .form-row { grid-template-columns: 1fr; }
+      .page-title { font-size: 1.6rem; }
+      .timer-count { font-size: 2rem; }
+      .timer-btn-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Focus Four</span>
+  <div class="nav-right">
+    <a href="login.html" class="nav-btn nav-btn-outline">Login</a>
+    <a href="register.html" class="nav-btn nav-btn-solid">Register</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <h1 class="page-title">Log a Study Session</h1>
+  <p class="guest-notice">You are browsing as a guest. <a href="login.html">Login</a> to save your full history.</p>
+
+  <div class="card">
+
+    <div class="section">
+      <h2 class="section-title">Find a Book</h2>
+      <p class="section-sub">Search for a book via API</p>
+      <div class="search-row">
+        <input type="text" id="bookInput" placeholder="Search for textbooks..."/>
+        <button class="btn-search" id="searchBtn">Search</button>
+      </div>
+      <div id="search-results">
+        <div class="results-placeholder">Search results appear here</div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <div class="section">
+      <div class="field">
+        <label for="subject">Subject / Topic</label>
+        <input type="text" id="subject" placeholder='e.g. "Chapter 4 — Derivatives"'/>
+      </div>
+      <div class="field">
+        <label for="duration">Duration (minutes)</label>
+        <input type="number" id="duration" placeholder="e.g. 45" min="1"/>
+      </div>
+      <div class="field">
+        <label for="session-date">Date</label>
+        <input type="date" id="session-date"/>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <div class="section">
+      <h2 class="section-title">Study Goal and Timer</h2>
+      <p class="section-sub">Set a target time. Session automatically logs when timer ends</p>
+      <div class="field">
+        <label>Goal Duration</label>
+        <div class="form-row">
+          <input type="number" id="goal-amount" placeholder="eg. 60" min="1"/>
+          <select id="goal-unit">
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+          </select>
+        </div>
+      </div>
+      <div class="timer-display">
+        <div class="timer-label">Timer Display</div>
+        <div class="timer-count" id="timer-count">00:00</div>
+        <div class="timer-sub" id="timer-sub">Countdown appears here when started</div>
+      </div>
+      <div class="timer-btn-row">
+        <button class="btn-timer" id="btn-start" onclick="startTimer()">Start Timer</button>
+        <button class="btn-timer" onclick="pauseTimer()">Pause</button>
+        <button class="btn-timer" onclick="resetTimer()">Reset</button>
+      </div>
+      <p class="timer-note">When timer ends, session is automatically logged</p>
+    </div>
+
+    <hr class="divider"/>
+
+    <div class="section">
+      <div class="field">
+        <label for="notes">Notes (optional)</label>
+        <textarea id="notes" placeholder="What are your goals for the study session?"></textarea>
+      </div>
+    </div>
+
+    <div id="log-btn-wrap"></div>
+
+  </div>
+
+  <div class="favourites-section">
+    <h2 class="favourites-title">My Favourites</h2>
+    <div id="favourites-list">
+      <p class="fav-empty">No favourites yet. Search for a book and click "Fav" to save it here.</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="JS/auth.js"></script>
+<script src="JS/storage.js"></script>
+<script src="JS/session.js"></script>
+
+</body>
+</html>
