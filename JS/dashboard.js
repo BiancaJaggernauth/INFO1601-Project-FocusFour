@@ -35,11 +35,12 @@ function setupUI() {
 
     if (isLoggedIn) {
         guestOverlay.style.display = "none";
-
         navUserText.innerText   = `Hi, ${username}`;
         welcomeHeader.innerText = `Welcome Back, ${username}`;
 
-        loadMockStats();
+        loadRealStats();
+        loadSessionHistory();
+        renderFavorites(); 
     } else {
         guestOverlay.style.display = "flex";
     }
@@ -50,6 +51,10 @@ function bindEvents() {
     let logoutBtn = document.querySelector("#logoutBtn");
 
     searchBtn.addEventListener("click", searchBooks);
+    document.querySelector("#bookInput").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") searchBooks();
+    });
+    
     logoutBtn.addEventListener("click", logoutUser);
 }
 
@@ -65,14 +70,14 @@ async function searchBooks() {
     resultArea.innerHTML = "<p style='text-align:center;'>Searching Google Books...</p>";
 
     try {
-        let response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=5`);
+      let response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=5&key=AIzaSyAhkm6Xqp69bHjQCxhUwy9zlb5Mt8McFGk`);
         let result = await response.json();
 
         booksData = result.items || [];
         drawBooks();
     } catch (e) {
-        console.log(e);
-        resultArea.innerHTML = "<p>Error connecting to API.</p>";
+        console.error("Search Error:", e);
+        resultArea.innerHTML = "<p>Error connecting to API. Check your connection.</p>";
     }
 }
 
@@ -81,173 +86,138 @@ function drawBooks() {
     resultArea.innerHTML = "";
 
     if (booksData.length === 0) {
-        let emptyMsg = document.createElement("p");
-        emptyMsg.className = "empty-state";
-        emptyMsg.innerText = "No results found.";
-        resultArea.appendChild(emptyMsg);
+        resultArea.innerHTML = "<p class='empty-state'>No results found.</p>";
         return;
     }
 
-    for (let book of booksData) {
+    booksData.forEach(book => {
         let info = book.volumeInfo;
-        let title = info.title;
-        let authors = info.authors ? info.authors.join(", ") : "Various Authors";
+        let title = info.title || "Untitled";
+        let authors = info.authors ? info.authors.join(", ") : "Unknown Author";
 
         let bookDiv = document.createElement("div");
         bookDiv.className = "book-item";
 
-        let infoDiv = document.createElement("div");
-        
-        let titleEl = document.createElement("strong");
-        titleEl.innerText = title;
-        
-        let br = document.createElement("br");
-        
-        let authorEl = document.createElement("small");
-        authorEl.innerText = authors;
+        bookDiv.innerHTML = `
+            <div>
+                <strong>${title}</strong><br>
+                <small>${authors}</small>
+            </div>
+            <button class="action-btn">Fav</button>
+        `;
 
-        infoDiv.appendChild(titleEl);
-        infoDiv.appendChild(br);
-        infoDiv.appendChild(authorEl);
-
-        let favBtn = document.createElement("button");
-        favBtn.className = "action-btn";
-        favBtn.innerText = "Fav";
-
-        favBtn.addEventListener("click", function() {
-            addToFavs(title);
-        });
-
-        bookDiv.appendChild(infoDiv);
-        bookDiv.appendChild(favBtn);
+        bookDiv.querySelector("button").addEventListener("click", () => addToFavs(title));
         resultArea.appendChild(bookDiv);
-    }
-}
-
-function loadMockStats(){
-  loadRealStats();
-  loadSessionHistory();
-}
-
-function getSessions(){
-  return JSON.parse(localStorage.getItem("sessions") || "[]");
-}
-
-function saveSessions(sessions){
-  localStorage.setItem("sessions", JSON.stringify(sessions));
-}
-
-function loadRealStats(){
-  const sessions = getSessions();
-
-  // total sessions
-  document.querySelector("#stat-sessions").innerText = sessions.length;
-
-  // total hours — add up all durations
-  let totalMins = 0;
-  sessions.forEach(s => {
-    totalMins += parseInt(s.duration) || 0;
-  });
-  const totalHours = (totalMins / 60).toFixed(1);
-  document.querySelector("#stat-hours").innerText = totalHours;
-
-  // sessions this week
-  const now = new Date();
-  const startOfWeek = new Date(now);
-  startOfWeek.setDate(now.getDate() - now.getDay());
-  startOfWeek.setHours(0, 0, 0, 0);
-
-  const thisWeek = sessions.filter(s => {
-    const sessionDate = new Date(s.date);
-    return sessionDate >= startOfWeek;
-  });
-  document.querySelector("#stat-week").innerText = thisWeek.length;
-
-  // longest session
-  if(sessions.length === 0){
-    document.querySelector("#stat-longest").innerText = "--";
-    return;
-  }
-
-  let longest = sessions.reduce((max, s) => {
-    return (parseInt(s.duration) || 0) > (parseInt(max.duration) || 0) ? s : max;
-  }, sessions[0]);
-
-  document.querySelector("#stat-longest").innerText = longest.duration
-    ? `${longest.duration} min`
-    : "--";
-}
-
-function loadSessionHistory(){
-  const sessions = getSessions();
-  const historyList = document.querySelector("#historyList");
-
-  if(sessions.length === 0){
-    historyList.innerHTML = `<div class="empty-state">No sessions logged yet.</div>`;
-    return;
-  }
-
-  historyList.innerHTML = "";
-
-  // show newest sessions first
-  const reversed = [...sessions].reverse();
-
-  reversed.forEach((session, i) => {
-    // real index in original array for deletion
-    const realIndex = sessions.length - 1 - i;
-
-    const item = document.createElement("div");
-    item.className = "history-item";
-    item.innerHTML = `
-      <div class="history-item-info">
-        <div class="history-item-title">${session.book || "No book selected"}</div>
-        <div class="history-item-meta">Subject: ${session.subject || "N/A"}</div>
-        <div class="history-item-meta">Duration: ${session.duration ? session.duration + " min" : "N/A"}</div>
-        <div class="history-item-meta">Date: ${session.date || "N/A"}</div>
-        <div class="history-item-meta">Goal: ${session.goal || "N/A"}</div>
-        ${session.notes ? `<div class="history-item-meta">Notes: ${session.notes}</div>` : ""}
-      </div>
-      <button class="delete-btn">Delete</button>
-    `;
-
-    item.querySelector(".delete-btn").addEventListener("click", function(){
-      deleteSession(realIndex);
     });
-
-    historyList.appendChild(item);
-  });
 }
 
-function deleteSession(index){
-  let sessions = getSessions();
-  sessions.splice(index, 1);
-  saveSessions(sessions);
-  loadRealStats();
-  loadSessionHistory();
-}
 
 function addToFavs(title) {
-    let favList  = document.querySelector("#favoritesList");
-    let emptyMsg = favList.querySelector(".empty-state");
+    let favs = JSON.parse(localStorage.getItem("favourites") || "[]");
 
-    if (emptyMsg) {
-        favList.removeChild(emptyMsg);
+    const exists = favs.some(f => f.title === title);
+    if (exists) {
+        alert("This book is already in your favorites!");
+        return;
     }
 
-    let favItem = document.createElement("div");
-    favItem.className = "book-item";
-    favItem.style.borderLeft = "5px solid #C08552";
+    favs.push({ title: title });
+    localStorage.setItem("favourites", JSON.stringify(favs));
+    renderFavorites();
+}
 
-    let titleSpan = document.createElement("span");
-    titleSpan.innerText = title;
+function renderFavorites() {
+    const favList = document.querySelector("#favoritesList");
+    const favs = JSON.parse(localStorage.getItem("favourites") || "[]");
 
-    let starSpan = document.createElement("span");
-    starSpan.className = "fav-indicator";
-    starSpan.innerText = " ★ Saved";
+    if (favs.length === 0) {
+        favList.innerHTML = `<div class="empty-state">No books saved yet.</div>`;
+        return;
+    }
 
-    favItem.appendChild(titleSpan);
-    favItem.appendChild(starSpan);
-    favList.appendChild(favItem);
+    favList.innerHTML = "";
+    favs.forEach((fav, index) => {
+        let favItem = document.createElement("div");
+        favItem.className = "book-item";
+        favItem.style.borderLeft = "5px solid #C08552";
+
+        favItem.innerHTML = `
+            <span>${fav.title}</span>
+            <button class="delete-btn">Remove</button>
+        `;
+
+        favItem.querySelector(".delete-btn").addEventListener("click", () => {
+            removeFromFavs(index);
+        });
+
+        favList.appendChild(favItem);
+    });
+}
+
+function removeFromFavs(index) {
+    let favs = JSON.parse(localStorage.getItem("favourites") || "[]");
+    favs.splice(index, 1);
+    localStorage.setItem("favourites", JSON.stringify(favs));
+    renderFavorites();
+}
+
+function getSessions() {
+    return JSON.parse(localStorage.getItem("sessions") || "[]");
+}
+
+function loadRealStats() {
+    const sessions = getSessions();
+    document.querySelector("#stat-sessions").innerText = sessions.length;
+
+    let totalMins = sessions.reduce((sum, s) => sum + (parseInt(s.duration) || 0), 0);
+    document.querySelector("#stat-hours").innerText = (totalMins / 60).toFixed(1);
+
+    const now = new Date();
+    const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())).setHours(0,0,0,0);
+    const thisWeek = sessions.filter(s => new Date(s.date) >= startOfWeek);
+    document.querySelector("#stat-week").innerText = thisWeek.length;
+
+    if (sessions.length > 0) {
+        let longest = sessions.reduce((max, s) => (parseInt(s.duration) || 0) > (parseInt(max.duration) || 0) ? s : max);
+        document.querySelector("#stat-longest").innerText = `${longest.duration} min`;
+    } else {
+        document.querySelector("#stat-longest").innerText = "--";
+    }
+}
+
+function loadSessionHistory() {
+    const sessions = getSessions();
+    const historyList = document.querySelector("#historyList");
+
+    if (sessions.length === 0) {
+        historyList.innerHTML = `<div class="empty-state">No sessions logged yet.</div>`;
+        return;
+    }
+
+    historyList.innerHTML = "";
+    [...sessions].reverse().forEach((session, i) => {
+        const realIndex = sessions.length - 1 - i;
+        const item = document.createElement("div");
+        item.className = "history-item";
+        item.innerHTML = `
+            <div class="history-item-info">
+                <div class="history-item-title">${session.book || "No book selected"}</div>
+                <div class="history-item-meta">Subject: ${session.subject || "N/A"} | Duration: ${session.duration}m</div>
+                <div class="history-item-meta">Date: ${session.date}</div>
+            </div>
+            <button class="delete-btn">Delete</button>
+        `;
+        item.querySelector(".delete-btn").addEventListener("click", () => deleteSession(realIndex));
+        historyList.appendChild(item);
+    });
+}
+
+function deleteSession(index) {
+    let sessions = getSessions();
+    sessions.splice(index, 1);
+    localStorage.setItem("sessions", JSON.stringify(sessions));
+    loadRealStats();
+    loadSessionHistory();
 }
 
 function logoutUser() {
@@ -255,4 +225,3 @@ function logoutUser() {
     localStorage.removeItem("username");
     window.location.href = "login.html";
 }
-
