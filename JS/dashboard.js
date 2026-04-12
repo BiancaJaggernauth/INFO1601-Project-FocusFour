@@ -224,6 +224,7 @@ function deleteSession(index){
   saveSessions(sessions);
   loadRealStats();
   loadSessionHistory();
+}
 
 function addToFavs(title) {
     let favList  = document.querySelector("#favoritesList");
@@ -255,9 +256,3 @@ function logoutUser() {
     window.location.href = "login.html";
 }
 
-function loadMockStats() {
-    document.querySelector("#stat-sessions").innerText = "24";
-    document.querySelector("#stat-hours").innerText   = "58.2";
-    document.querySelector("#stat-week").innerText    = "6";
-    document.querySelector("#stat-longest").innerText = "Apr 05";
-}
