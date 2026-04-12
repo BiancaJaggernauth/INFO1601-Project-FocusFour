@@ -257,22 +257,25 @@ NOTES FOR TEAM:
     <nav class="top-nav">
         <h1 class="logo">FocusFour</h1>
         <div class="nav-right">
-            <span id="nav-user">Hi, Guest</span>
+            <span id="nav-user">Hi, User</span>
             <button class="logout-btn" id="logoutBtn">Logout</button>
         </div>
-    </nav>
+</nav>
 
-    <div class="dashboard-wrapper">
-        <header class="welcome-section">
-            <h2 id="welcome-header">Welcome Back, Guest</h2>
-            <p class="subtitle">Here's your study summary</p>
-        </header>
+        <div class="dashboard-wrapper">
+            <header class="welcome-section">
+                <h2 id="welcome-header">Welcome Back, Guest</h2>
+                <p class="subtitle">Here's your study summary</p>
+            </header>
 
-        <section class="stats-grid">
-            <div class="stat-card">
-                <p class="label">Total Sessions</p>
-                <strong id="stat-sessions" class="stat-number">0</strong>
-                <p class="sub-label">all time</p>
+            <div style="margin-bottom: 20px;">
+                <a href="session.html" class="action-btn" style="text-decoration: none; display: inline-block;">+ Log New Session</a>
+            </div>
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <p class="label">Total Sessions</p>
+                    <strong id="stat-sessions" class="stat-number">0</strong>
+                    <p class="sub-label">all time</p>
             </div>
             <div class="stat-card">
                 <p class="label">Total Hours</p>

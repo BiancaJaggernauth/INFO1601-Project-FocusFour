@@ -304,9 +304,11 @@ function autoLog() {
     window.location.href = "login.html";
     return;
   }
+
   const session = gatherSession();
   saveSession(session);
   alert("Session logged automatically!");
+  window.location.href = "dashboard.html"; 
 }
 
 function logSession() {
@@ -314,7 +316,9 @@ function logSession() {
     window.location.href = "login.html";
     return;
   }
+  
   const session = gatherSession();
   saveSession(session);
   alert("Session logged successfully!");
+  window.location.href = "dashboard.html";
 }
