@@ -86,18 +86,21 @@ NOTES FOR TEAM:
       return;
     }
 
-    var user = {
-      fullname,
-      username,
-      email,
-      password
-    };
+  var user = {
+    fullname,
+    username,
+    email,
+    password
+  };
 
-    localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("user", JSON.stringify(user));
 
-    successMsg.innerHTML = "Account created successfully!";
+  localStorage.setItem("isLoggedIn", "true");
+  localStorage.setItem("username", username); 
+  
+  successMsg.innerHTML = "Account created successfully! Redirecting...";
 
-    setTimeout(() => {
-      window.location.href = "login.html";
-    }, 1500);
-  }
+  setTimeout(() => {
+    window.location.href = "dashboard.html";
+  }, 1500);
+}

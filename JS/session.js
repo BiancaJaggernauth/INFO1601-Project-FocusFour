@@ -304,9 +304,11 @@ function autoLog() {
     window.location.href = "login.html";
     return;
   }
+
   const session = gatherSession();
   saveSession(session);
   alert("Session logged automatically!");
+  window.location.href = "dashboard.html"; 
 }
 
 function logSession() {
@@ -314,9 +316,11 @@ function logSession() {
     window.location.href = "login.html";
     return;
   }
+  
   const session = gatherSession();
   saveSession(session);
   alert("Session logged successfully!");
+  window.location.href = "dashboard.html";
 }
   const moodMap = {
     lofi:      { label: 'Lo-fi Beats',     src: 'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=0&controls=1&rel=0' },

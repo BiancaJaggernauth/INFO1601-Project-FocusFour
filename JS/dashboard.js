@@ -16,7 +16,6 @@ NOTES FOR TEAM:
 
 let isLoggedIn = false;
 let username   = "User";
-let booksData  = [];
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -25,7 +24,6 @@ function init() {
     username   = localStorage.getItem("username") || "User";
 
     setupUI();
-    bindEvents();
 }
 
 function setupUI() {
@@ -44,130 +42,44 @@ function setupUI() {
     } else {
         guestOverlay.style.display = "flex";
     }
+
+    document.querySelector("#logoutBtn").addEventListener("click", logoutUser);
 }
 
-function bindEvents() {
-    let searchBtn = document.querySelector("#searchBtn");
-    let logoutBtn = document.querySelector("#logoutBtn");
+function calculateStreak() {
+    const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+    if (sessions.length === 0) return 0;
 
-    searchBtn.addEventListener("click", searchBooks);
-    document.querySelector("#bookInput").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") searchBooks();
-    });
-    
-    logoutBtn.addEventListener("click", logoutUser);
-}
+    const dates = [...new Set(sessions.map(s => new Date(s.date).toDateString()))]
+                  .map(d => new Date(d))
+                  .sort((a, b) => b - a);
 
-async function searchBooks() {
-    let query = document.querySelector("#bookInput").value;
-    let resultArea = document.querySelector("#searchResults");
+    let streak = 0;
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    if (query.trim() === "") {
-        alert("Please enter a book name or subject.");
-        return;
+    let lastSessionDate = new Date(dates[0]);
+    lastSessionDate.setHours(0, 0, 0, 0);
+
+    // If the gap between today and the last session is > 1 day, streak is 0
+    const diffInDays = (today - lastSessionDate) / (1000 * 60 * 60 * 24);
+    if (diffInDays > 1) return 0;
+
+    for (let i = 0; i < dates.length - 1; i++) {
+        let diff = (dates[i] - dates[i+1]) / (1000 * 60 * 60 * 24);
+        if (diff === 1) streak++;
+        else break;
     }
-
-    resultArea.innerHTML = "<p style='text-align:center;'>Searching Google Books...</p>";
-
-    try {
-      let response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=5&key=AIzaSyAhkm6Xqp69bHjQCxhUwy9zlb5Mt8McFGk`);
-        let result = await response.json();
-
-        booksData = result.items || [];
-        drawBooks();
-    } catch (e) {
-        console.error("Search Error:", e);
-        resultArea.innerHTML = "<p>Error connecting to API. Check your connection.</p>";
-    }
-}
-
-function drawBooks() {
-    let resultArea = document.querySelector("#searchResults");
-    resultArea.innerHTML = "";
-
-    if (booksData.length === 0) {
-        resultArea.innerHTML = "<p class='empty-state'>No results found.</p>";
-        return;
-    }
-
-    booksData.forEach(book => {
-        let info = book.volumeInfo;
-        let title = info.title || "Untitled";
-        let authors = info.authors ? info.authors.join(", ") : "Unknown Author";
-
-        let bookDiv = document.createElement("div");
-        bookDiv.className = "book-item";
-
-        bookDiv.innerHTML = `
-            <div>
-                <strong>${title}</strong><br>
-                <small>${authors}</small>
-            </div>
-            <button class="action-btn">Fav</button>
-        `;
-
-        bookDiv.querySelector("button").addEventListener("click", () => addToFavs(title));
-        resultArea.appendChild(bookDiv);
-    });
-}
-
-
-function addToFavs(title) {
-    let favs = JSON.parse(localStorage.getItem("favourites") || "[]");
-
-    const exists = favs.some(f => f.title === title);
-    if (exists) {
-        alert("This book is already in your favorites!");
-        return;
-    }
-
-    favs.push({ title: title });
-    localStorage.setItem("favourites", JSON.stringify(favs));
-    renderFavorites();
-}
-
-function renderFavorites() {
-    const favList = document.querySelector("#favoritesList");
-    const favs = JSON.parse(localStorage.getItem("favourites") || "[]");
-
-    if (favs.length === 0) {
-        favList.innerHTML = `<div class="empty-state">No books saved yet.</div>`;
-        return;
-    }
-
-    favList.innerHTML = "";
-    favs.forEach((fav, index) => {
-        let favItem = document.createElement("div");
-        favItem.className = "book-item";
-        favItem.style.borderLeft = "5px solid #C08552";
-
-        favItem.innerHTML = `
-            <span>${fav.title}</span>
-            <button class="delete-btn">Remove</button>
-        `;
-
-        favItem.querySelector(".delete-btn").addEventListener("click", () => {
-            removeFromFavs(index);
-        });
-
-        favList.appendChild(favItem);
-    });
-}
-
-function removeFromFavs(index) {
-    let favs = JSON.parse(localStorage.getItem("favourites") || "[]");
-    favs.splice(index, 1);
-    localStorage.setItem("favourites", JSON.stringify(favs));
-    renderFavorites();
-}
-
-function getSessions() {
-    return JSON.parse(localStorage.getItem("sessions") || "[]");
+    return streak + 1;
 }
 
 function loadRealStats() {
-    const sessions = getSessions();
+    const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
     document.querySelector("#stat-sessions").innerText = sessions.length;
+    
+    // Update the Streak
+    const streakElement = document.querySelector("#stat-streak");
+    if(streakElement) streakElement.innerText = calculateStreak();
 
     let totalMins = sessions.reduce((sum, s) => sum + (parseInt(s.duration) || 0), 0);
     document.querySelector("#stat-hours").innerText = (totalMins / 60).toFixed(1);
@@ -185,8 +97,38 @@ function loadRealStats() {
     }
 }
 
+function renderFavorites() {
+    const favList = document.querySelector("#favoritesList");
+    const favs = JSON.parse(localStorage.getItem("favourites") || "[]");
+
+    if (favs.length === 0) {
+        favList.innerHTML = `<div class="empty-state">No books saved yet.</div>`;
+        return;
+    }
+
+    favList.innerHTML = "";
+    favs.forEach((fav, index) => {
+        let favItem = document.createElement("div");
+        favItem.className = "book-item";
+        favItem.style.borderLeft = "5px solid #C08552";
+        favItem.innerHTML = `
+            <span>${fav.title}</span>
+            <button class="delete-btn">Remove</button>
+        `;
+        favItem.querySelector(".delete-btn").addEventListener("click", () => removeFromFavs(index));
+        favList.appendChild(favItem);
+    });
+}
+
+function removeFromFavs(index) {
+    let favs = JSON.parse(localStorage.getItem("favourites") || "[]");
+    favs.splice(index, 1);
+    localStorage.setItem("favourites", JSON.stringify(favs));
+    renderFavorites();
+}
+
 function loadSessionHistory() {
-    const sessions = getSessions();
+    const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
     const historyList = document.querySelector("#historyList");
 
     if (sessions.length === 0) {
@@ -213,7 +155,7 @@ function loadSessionHistory() {
 }
 
 function deleteSession(index) {
-    let sessions = getSessions();
+    let sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
     sessions.splice(index, 1);
     localStorage.setItem("sessions", JSON.stringify(sessions));
     loadRealStats();
