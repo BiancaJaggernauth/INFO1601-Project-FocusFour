@@ -132,7 +132,7 @@ function searchBooks() {
 function selectBook(i, title, author) {
   const btn = document.getElementById(`select-${i}`);
 
-  // if already selected, deselect it
+  
   if (selectedBook && selectedBook.title === title && selectedBook.author === author) {
     selectedBook = null;
     btn.classList.remove("active");
@@ -140,7 +140,7 @@ function selectBook(i, title, author) {
     return;
   }
 
-  // otherwise select it
+  
   selectedBook = { title, author };
   document.querySelectorAll(".btn-select").forEach(b => {
     b.classList.remove("active");

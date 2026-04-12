@@ -293,45 +293,6 @@ NOTES FOR TEAM:
       min-height: 14px;
     }
   </style>
- 
-  <script>
-    function togglePass() {
-      var input = document.getElementById('password');
-      var btn = document.querySelector('.eye-btn');
-      var isHidden = input.type === 'password';
-      input.type = isHidden ? 'text' : 'password';
-      btn.textContent = isHidden ? '🙈' : '👁';
-    }
- 
-    function openBook() {
-      document.getElementById('bookFront').classList.add('open');
-    }
- 
-    function goRegister() {
-      window.location.href = 'register.html';
-    }
- 
-    function login() {
-      var username = document.querySelector("#username").value;
-      var password = document.querySelector("#password").value;
-      var storedUser = JSON.parse(localStorage.getItem("user"));
- 
-      var validUsername = (username === "bob" || username === "bob@mail.com");
-      var validPassword = (password === "bobpass");
- 
-      var storedMatch = false;
-      if (storedUser) {
-        storedMatch = (username === storedUser.username || username === storedUser.email) && password === storedUser.password;
-      }
- 
-      if ((validUsername && validPassword) || storedMatch) {
-        localStorage.setItem("isLoggedIn", "true");
-        window.location.href = "dashboard.html";
-      } else {
-        document.querySelector("#errorMsg").innerHTML = "Invalid username or password.";
-      }
-    }
-  </script>
- 
+  <script src= "JS/auth.js"></script> 
 </body>
 </html>
