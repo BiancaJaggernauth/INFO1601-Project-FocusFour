@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us – FocusFour</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #fdf8f2;
+      font-family: 'DM Sans', sans-serif;
+      color: #2d2a26;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -120px; left: -120px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #f5c5b055 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -100px; right: -100px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, #cfc3e455 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    .site-header {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeDown 0.7s ease both;
+    }
+    .logo-badge {
+      display: inline-block;
+      background: #2d2a26;
+      color: #fdf8f2;
+      font-family: 'Fraunces', serif;
+      font-size: 16px;
+      letter-spacing: 1.5px;
+      padding: 6px 18px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    .site-header h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 52px;
+      line-height: 1.1;
+      color: #2d2a26;
+      margin-bottom: 10px;
+    }
+    .site-header h1 em {
+      font-style: italic;
+      color: #9b6f50;
+    }
+    .site-header .subtitle {
+      font-size: 16px;
+      color: #7a7068;
+      font-weight: 300;
+    }
+
+    .about-card {
+      background: #fff;
+      border: 1.5px solid #ebe3d9;
+      border-radius: 24px;
+      padding: 40px 44px;
+      margin-bottom: 60px;
+      position: relative;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+      animation: fadeUp 0.7s 0.15s ease both;
+    }
+    .about-card::before {
+      content: '✦';
+      position: absolute;
+      top: -14px; left: 40px;
+      background: #e8c87a;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      color: #2d2a26;
+      line-height: 28px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .about-card h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: #2d2a26;
+    }
+    .about-card p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #7a7068;
+      font-weight: 300;
+    }
+    .about-card p + p { margin-top: 12px; }
+
+    .team-heading {
+      text-align: center;
+      margin-bottom: 36px;
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+    .team-heading h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 32px;
+      color: #2d2a26;
+    }
+    .team-heading p {
+      font-size: 14px;
+      color: #7a7068;
+      margin-top: 6px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 20px;
+    }
+
+    .member-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 20px 24px;
+      text-align: center;
+      border: 1.5px solid #ebe3d9;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      animation: fadeUp 0.6s ease both;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .member-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    .member-card:nth-child(1) { animation-delay: 0.3s; border-top: 4px solid #f5c5b0; }
+    .member-card:nth-child(2) { animation-delay: 0.4s; border-top: 4px solid #aecde0; }
+    .member-card:nth-child(3) { animation-delay: 0.5s; border-top: 4px solid #b5cbb7; }
+    .member-card:nth-child(4) { animation-delay: 0.6s; border-top: 4px solid #cfc3e4; }
+
+    .member-emoji {
+      font-size: 45px;
+      margin-bottom: 14px;
+      display: block;
+      line-height: 1;
+    }
+    .member-name {
+      font-family: 'Fraunces', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #2d2a26;
+      margin-bottom: 4px;
+    }
+    .member-role {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #7a7068;
+      margin-bottom: 12px;
+    }
+    .role-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #2d2a26;
+      margin-bottom: 16px;
+    }
+    .member-card:nth-child(1) .role-pill { background: #f5c5b030; }
+    .member-card:nth-child(2) .role-pill { background: #aecde030; }
+    .member-card:nth-child(3) .role-pill { background: #b5cbb730; }
+    .member-card:nth-child(4) .role-pill { background: #cfc3e430; }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: auto;
+      padding-top: 4px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #fdf8f2;
+      border: 1.5px solid #ebe3d9;
+      color: #7a7068;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .social-links a:hover { color: #fff; border-color: transparent; }
+    .social-links a.instagram:hover { background: #e1306c; }
+    .social-links a.linkedin:hover  { background: #0a66c2; }
+    .social-links a.github:hover    { background: #1b1f23; }
+
+    footer {
+      text-align: center;
+      margin-top: 64px;
+      font-size: 13px;
+      color: #b0a89e;
+      animation: fadeUp 0.6s 0.7s ease both;
+    }
+    footer span { color: #f5c5b0; }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+
+    <header class="site-header">
+      <div class="logo-badge">FocusFour</div>
+      <h1>Built by students,<br/><em>for students.</em></h1>
+      <p class="subtitle">A little team with a big belief in smarter study habits.</p>
+    </header>
+
+    <div class="about-card">
+      <h2>Our Story 📖</h2>
+      <p>
+        We've all been there — exam week rolls around and you suddenly realise you've been spending
+        three hours a night on one subject while completely neglecting another. You meant to study
+        more, you thought you were on track, but somewhere between group chats and late-night snacks,
+        the hours just… slipped away.
+      </p>
+      <p>
+        FocusFour was born from that exact frustration. We're four university students who wanted
+        a tool that was honest, simple, and actually designed with <em>us</em> in mind — not a
+        generic productivity app repurposed for students, but something built from scratch with
+        our study struggles at the centre.
+      </p>
+      <p>
+        So we built it. A focused, friendly study tracker that helps you log sessions, hit weekly
+        goals, maintain streaks, and finally see where your time is really going. No fluff, no
+        overwhelm — just clarity, consistency, and a little motivation to keep showing up. 🎯
+      </p>
+    </div>
+
+    <div class="team-heading">
+      <h2>Meet the Team 🌟</h2>
+      <p>Four roles, one mission — making study time actually count.</p>
+    </div>
+
+    <div class="team-grid">
+
+      <div class="member-card">
+        <span class="member-emoji">🧭</span>
+        <div class="member-name">Genesis Semper</div>
+        <div class="member-role">Project Lead</div>
+        <span class="role-pill">Strategy & Vision</span>
+        <div class="social-links">
+          <a href="https://www.instagram.com/accounts/login/" target="_blank" class="instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://linkedin.com/company/focusfour" target="_blank" class="linkedin" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://github.com/BiancaJaggernauth/INFO1601-Project-FocusFour.git" target="_blank" class="github" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <span class="member-emoji">🎨</span>
+        <div class="member-name">Layla Khan</div>
+        <div class="member-role">UI Design</div>
+        <span class="role-pill">Interfaces & Experience</span>
+        <div class="social-links">
+          <a href="https://www.instagram.com/accounts/login/" target="_blank" class="instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://linkedin.com/company/focusfour" target="_blank" class="linkedin" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://github.com/BiancaJaggernauth/INFO1601-Project-FocusFour.git" target="_blank" class="github" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <span class="member-emoji">⚙️</span>
+        <div class="member-name">Bianca Jaggernauth</div>
+        <div class="member-role">DevOps</div>
+        <span class="role-pill">Build & Deployment</span>
+        <div class="social-links">
+          <a href="https://www.instagram.com/accounts/login/" target="_blank" class="instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://linkedin.com/company/focusfour" target="_blank" class="linkedin" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://github.com/BiancaJaggernauth/INFO1601-Project-FocusFour.git" target="_blank" class="github" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <span class="member-emoji">📣</span>
+        <div class="member-name">Kimiko Lai</div>
+        <div class="member-role">Marketing</div>
+        <span class="role-pill">Outreach & Branding</span>
+        <div class="social-links">
+          <a href="https://www.instagram.com/accounts/login/" target="_blank" class="instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://linkedin.com/company/focusfour" target="_blank" class="linkedin" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://github.com/BiancaJaggernauth/INFO1601-Project-FocusFour.git" target="_blank" class="github" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      Made with <span>♥</span> by the FocusFour team &nbsp;·&nbsp; University Project &nbsp;·&nbsp; 2026
+    </footer>
+
+  </div>
+</body>
+</html>
