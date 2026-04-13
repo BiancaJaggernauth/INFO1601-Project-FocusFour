@@ -350,7 +350,7 @@ NOTES FOR TEAM:
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">
-        <img src="logo.png" />
+        <img src="icon-192.png" alt="FocusFour Logo" />
         FocusFour
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -374,10 +374,17 @@ NOTES FOR TEAM:
           <h1>Track your studying,<br/>hit your goals.</h1>
           <p>Simple, focused, and built for students who want to stay on top of their work.</p>
         </div>
-        <div class="col-md-6 fade-in d2">
-          <div class="hero-logo-box">
-            <img src="logo.png" alt="FocusFour Logo" />
-          </div>
+        <div class="col-md-6 fade-in">
+          <h1>Track your studying,<br/>hit your goals.</h1>
+          <div id="quote-container" style="margin-top: 15px; border-left: 3px solid #355872; padding-left: 15px;">
+              <p id="main-quote" style="font-style: italic; color: #355872; font-size: 18px; margin-bottom: 5px;">
+                  "Loading inspiration..."
+              </p>
+              <p id="quote-author" style="color: #8B6145; font-weight: bold; font-size: 14px;">
+                  — FocusFour
+              </p>
+            </div>
+            </div>
         </div>
       </div>
     </div>
@@ -633,26 +640,51 @@ NOTES FOR TEAM:
 
   
   <script>
-    // simple function to open/close step details when clicked
+    // Motivational Quote Data
+    const motivationalQuotes = [
+        { quote: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela" },
+        { quote: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+        { quote: "Don’t let what you cannot do interfere with what you can do.", author: "John Wooden" },
+        { quote: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+        { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+        { quote: "The only place where success comes before work is in the dictionary.", author: "Vidal Sassoon" }
+    ];
+
+    // Pick and Display a Quote
+    function setRandomQuote() {
+        const quoteElement = document.getElementById("main-quote");
+        const authorElement = document.getElementById("quote-author");
+
+        if (quoteElement && authorElement) {
+            const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+            const selected = motivationalQuotes[randomIndex];
+
+            quoteElement.innerText = `"${selected.quote}"`;
+            authorElement.innerText = `— ${selected.author}`;
+        }
+    }
+
     function toggleStep(el) {
       const wasOpen = el.classList.contains('open');
-      // close all other steps first
       document.querySelectorAll('.step-row').forEach(r => r.classList.remove('open'));
-      // if it wasn't open, open this one
       if (!wasOpen) el.classList.add('open');
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        setRandomQuote();
+        
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('PWA/service-worker.js')
+              .then(reg => console.log('Service Worker Registered!'))
+              .catch(err => console.log('Service Worker registration failed: ', err));
+        }
+    });
   </script>
 
-  <!-- PWA Service Worker Registration -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('PWA/service-worker.js')
-          .then(reg => console.log('Service Worker Registered!'))
-          .catch(err => console.log('Service Worker registration failed: ', err));
-      });
-    }
-  </script>
+  <script src="JS/auth.js"></script> 
+</body>
+</html>
 
 </body>
 </html>
