@@ -346,7 +346,6 @@ NOTES FOR TEAM:
 </head>
 <body>
 
-  <!-- navbar with logo -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">
@@ -366,7 +365,6 @@ NOTES FOR TEAM:
     </div>
   </nav>
 
-  <!-- hero section -->
   <section class="hero-section">
     <div class="container">
       <div class="row align-items-center g-4">
@@ -375,7 +373,6 @@ NOTES FOR TEAM:
           <p>Simple, focused, and built for students who want to stay on top of their work.</p>
         </div>
         <div class="col-md-6 fade-in">
-          <h1>Track your studying,<br/>hit your goals.</h1>
           <div id="quote-container" style="margin-top: 15px; border-left: 3px solid #355872; padding-left: 15px;">
               <p id="main-quote" style="font-style: italic; color: #355872; font-size: 18px; margin-bottom: 5px;">
                   "Loading inspiration..."
@@ -387,19 +384,15 @@ NOTES FOR TEAM:
             </div>
         </div>
       </div>
-    </div>
   </section>
 
-  <!-- simple strip -->
   <div class="simple-strip">Simple, fast, free to use.</div>
 
-  <!-- how it works section -->
   <section class="how-section" id="how-it-works">
     <div class="container">
       <h2 class="fade-in">How it Works</h2>
       <p class="how-subtitle fade-in d1">Start studying in 4 easy steps — click each one to learn more</p>
 
-      <!-- step 1 -->
       <div class="step-row fade-in d1" onclick="toggleStep(this)">
         <div class="step-left">
           <div class="step-circle">1</div>
@@ -427,7 +420,6 @@ NOTES FOR TEAM:
         </div>
       </div>
 
-      <!-- step 2 -->
       <div class="step-row fade-in d2" onclick="toggleStep(this)">
         <div class="step-left">
           <div class="step-circle">2</div>
@@ -452,7 +444,6 @@ NOTES FOR TEAM:
         </div>
       </div>
 
-      <!-- step 3 -->
       <div class="step-row fade-in d3" onclick="toggleStep(this)">
         <div class="step-left">
           <div class="step-circle">3</div>
@@ -477,7 +468,6 @@ NOTES FOR TEAM:
         </div>
       </div>
 
-      <!-- step 4 -->
       <div class="step-row fade-in d4" onclick="toggleStep(this)">
         <div class="step-left">
           <div class="step-circle">4</div>
@@ -504,14 +494,12 @@ NOTES FOR TEAM:
     </div>
   </section>
 
-  <!-- everything you need (features) -->
   <section class="features-section" id="features">
     <div class="container">
       <h2 class="fade-in">Everything you need</h2>
       <p class="feat-subtitle fade-in d1">Built for students who want to stay on track</p>
 
       <div class="row g-3">
-        <!-- log a session card -->
         <div class="col-6 fade-in d1">
           <a href="session.html" class="feat-card">
             <div class="illus-box">
@@ -530,7 +518,6 @@ NOTES FOR TEAM:
           </a>
         </div>
 
-        <!-- dashboard card -->
         <div class="col-6 fade-in d2">
           <a href="dashboard.html" class="feat-card">
             <div class="illus-box">
@@ -550,7 +537,6 @@ NOTES FOR TEAM:
           </a>
         </div>
 
-        <!-- login card -->
         <div class="col-6 fade-in d3">
           <a href="login.html" class="feat-card">
             <div class="illus-box">
@@ -567,7 +553,6 @@ NOTES FOR TEAM:
           </a>
         </div>
 
-        <!-- register card -->
         <div class="col-6 fade-in d4">
           <a href="register.html" class="feat-card">
             <div class="illus-box">
@@ -585,7 +570,6 @@ NOTES FOR TEAM:
         </div>
       </div>
 
-      <!-- study history card with static chart  -->
       <div class="history-card fade-in">
         <div class="history-left">
           <div class="illus-box">
@@ -608,7 +592,6 @@ NOTES FOR TEAM:
           </div>
         </div>
 
-        <!-- static bar chart with fixed heights -->
         <svg width="130" height="86" viewBox="0 0 130 86" style="flex-shrink:0;">
           <rect width="130" height="86" rx="8" fill="#EBF5FA"/>
           <line x1="8" y1="18" x2="122" y2="18" stroke="#C8E6F0" stroke-width="1"/>
@@ -629,18 +612,18 @@ NOTES FOR TEAM:
     </div>
   </section>
 
-  <!-- footer -->
   <footer>
     <p>&copy; 2025 FocusFour. Built for learners.</p>
     <a href="login.html">Login</a>
     <a href="register.html">Register</a>
     <a href="session.html">Session Logger</a>
     <a href="dashboard.html">Dashboard</a>
-    <a href="aboutus.html">About Us</a> </footer>
+    <a href="aboutus.html">About Us</a> 
+  </footer>
 
-  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
-    // Motivational Quote Data
     const motivationalQuotes = [
         { quote: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela" },
         { quote: "The secret of getting ahead is getting started.", author: "Mark Twain" },
@@ -650,7 +633,6 @@ NOTES FOR TEAM:
         { quote: "The only place where success comes before work is in the dictionary.", author: "Vidal Sassoon" }
     ];
 
-    // Pick and Display a Quote
     function setRandomQuote() {
         const quoteElement = document.getElementById("main-quote");
         const authorElement = document.getElementById("quote-author");
@@ -658,9 +640,8 @@ NOTES FOR TEAM:
         if (quoteElement && authorElement) {
             const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
             const selected = motivationalQuotes[randomIndex];
-
-            quoteElement.innerText = "${selected.quote}";
-            authorElement.innerText = — ${selected.author};
+            quoteElement.innerText = `"${selected.quote}"`;
+            authorElement.innerText = `— ${selected.author}`;
         }
     }
 
@@ -673,7 +654,6 @@ NOTES FOR TEAM:
     document.addEventListener("DOMContentLoaded", function() {
         setRandomQuote();
         
-        // Register Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('PWA/service-worker.js')
               .then(reg => console.log('Service Worker Registered!'))
@@ -681,10 +661,5 @@ NOTES FOR TEAM:
         }
     });
   </script>
-
-  <script src="JS/auth.js"></script> 
-</body>
-</html>
-
 </body>
 </html>
