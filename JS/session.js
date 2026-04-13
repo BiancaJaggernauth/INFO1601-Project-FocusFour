@@ -78,46 +78,49 @@ function searchBooks() {
       }
 
       data.items.slice(0, 5).forEach((book, i) => {
-        const info      = book.volumeInfo;
-        const title     = info.title || "Unknown Title";
-        const author    = info.authors ? info.authors.join(", ") : "Unknown Author";
-        const thumbnail = info.imageLinks ? info.imageLinks.thumbnail : null;
-        const favs      = getFavourites();
-        const isFaved   = favs.some(f => f.title === title && f.author === author);
+  const info        = book.volumeInfo;
+  const title       = info.title || "Unknown Title";
+  const author      = info.authors ? info.authors.join(", ") : "Unknown Author";
+  const thumbnail   = info.imageLinks ? info.imageLinks.thumbnail : null;
+  const description = info.description
+    ? (info.description.length > 180 ? info.description.slice(0, 180) + "…" : info.description)
+    : "No description available.";
+  const favs        = getFavourites();
+  const isFaved     = favs.some(f => f.title === title && f.author === author);
 
-        const card = document.createElement("div");
-        card.className = "book-card";
-        card.id = `book-${i}`;
-        card.innerHTML = `
-          ${thumbnail
-            ? `<img src="${thumbnail}" class="book-thumb" alt="${title}"/>`
-            : `<div class="book-thumb-placeholder">📖</div>`}
-          <div class="book-info">
-            <div class="book-title">${title}</div>
-            <div class="book-author">${author}</div>
-          </div>
-          <div class="book-actions">
-            <button class="btn-fav ${isFaved ? "active" : ""}"
-              data-title="${title}" data-author="${author}" data-thumbnail="${thumbnail || ""}">
-              ${isFaved ? "♥ Fav" : "♡ Fav"}
-            </button>
-            <button class="btn-select" id="select-${i}"
-              data-title="${title}" data-author="${author}">
-              Select
-            </button>
-          </div>
-        `;
+  const card = document.createElement("div");
+  card.className = "book-card";
+  card.id = `book-${i}`;
+  card.innerHTML = `
+    ${thumbnail
+      ? `<img src="${thumbnail}" class="book-thumb" alt="${title}"/>`
+      : `<div class="book-thumb-placeholder">📖</div>`}
+    <div class="book-info">
+      <div class="book-title">${title}</div>
+      <div class="book-author">${author}</div>
+      <div class="book-desc">${description}</div>
+    </div>
+    <div class="book-actions">
+      <button class="btn-fav ${isFaved ? "active" : ""}"
+        data-title="${title}" data-author="${author}" data-thumbnail="${thumbnail || ""}">
+        ${isFaved ? "♥ Fav" : "♡ Fav"}
+      </button>
+      <button class="btn-select" id="select-${i}"
+        data-title="${title}" data-author="${author}">
+        Select
+      </button>
+    </div>
+  `;
 
-        card.querySelector(".btn-fav").addEventListener("click", function () {
-          toggleFav(this, title, author, thumbnail || "");
-        });
+  card.querySelector(".btn-fav").addEventListener("click", function () {
+    toggleFav(this, title, author, thumbnail || "");
+  });
+  card.querySelector(".btn-select").addEventListener("click", function () {
+    selectBook(i, title, author);
+  });
 
-        card.querySelector(".btn-select").addEventListener("click", function () {
-          selectBook(i, title, author);
-        });
-
-        resultsDiv.appendChild(card);
-      });
+  resultsDiv.appendChild(card);
+});
     })
     .catch(error => {
       console.error("Error:", error);

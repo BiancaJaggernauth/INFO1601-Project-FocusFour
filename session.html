@@ -53,7 +53,7 @@ NOTES FOR TEAM:
 
     nav {
       background: var(--dark-blue);
-      padding: 0 1.5rem;
+      padding: 0 24px;
       height: 52px;
       display: flex;
       align-items: center;
@@ -61,7 +61,7 @@ NOTES FOR TEAM:
     }
 
     .nav-logo {
-      font-size: 1.5rem;
+      font-size: 24px;
       font-weight: 700;
       color: var(--off-white);
     }
@@ -71,7 +71,7 @@ NOTES FOR TEAM:
     .nav-btn {
       padding: 6px 18px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       font-family: 'Segoe UI', sans-serif;
@@ -94,13 +94,14 @@ NOTES FOR TEAM:
     .nav-btn-solid:hover { background: var(--brown); border-color: var(--brown); }
 
     .page-wrap {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 2rem 1.25rem 3rem;
-    }
+  width: 98%;
+  max-width: 1600px; 
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
 
     .page-title {
-      font-size: 2rem;
+      font-size: 32px;
       font-weight: 700;
       text-align: center;
       color: var(--dark-blue);
@@ -109,9 +110,9 @@ NOTES FOR TEAM:
 
     .guest-notice {
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 14px;
       color: var(--text-muted);
-      margin-bottom: 1.75rem;
+      margin-bottom: 28px;
     }
 
     .guest-notice a {
@@ -125,35 +126,36 @@ NOTES FOR TEAM:
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 1.75rem;
-      margin-bottom: 1.5rem;
+      padding: 28px;
+      margin-bottom: 25px;
+      width: 100%;
     }
 
-    .section { margin-bottom: 1.5rem; }
+    .section { margin-bottom: 24px; }
     .section:last-child { margin-bottom: 0; }
 
     .section-title {
-      font-size: 1.1rem;
+      font-size: 18px;
       font-weight: 700;
       color: var(--dark-blue);
       margin-bottom: 3px;
     }
 
     .section-sub {
-      font-size: 0.8rem;
+      font-size: 13px;
       color: var(--text-muted);
-      margin-bottom: 0.9rem;
+      margin-bottom: 14px;
     }
 
     .divider {
       border: none;
       border-top: 1px solid var(--border);
-      margin: 1.5rem 0;
+      margin: 24px 0;
     }
 
     label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 14px;
       font-weight: 600;
       color: var(--text-muted);
       margin-bottom: 5px;
@@ -170,7 +172,7 @@ NOTES FOR TEAM:
       border-radius: 8px;
       background: var(--off-white);
       font-family: 'Segoe UI', sans-serif;
-      font-size: 0.9rem;
+      font-size: 14px;
       color: var(--text-dark);
       outline: none;
       transition: border-color 0.2s;
@@ -183,7 +185,7 @@ NOTES FOR TEAM:
 
     textarea { resize: vertical; min-height: 100px; }
 
-    .field { margin-bottom: 1rem; }
+    .field { margin-bottom: 16px; }
     .field:last-child { margin-bottom: 0; }
 
     .form-row {
@@ -207,7 +209,7 @@ NOTES FOR TEAM:
       border: none;
       border-radius: 8px;
       font-family: 'Segoe UI', sans-serif;
-      font-size: 0.88rem;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.2s;
@@ -227,7 +229,7 @@ NOTES FOR TEAM:
       align-items: center;
       justify-content: center;
       height: 70px;
-      font-size: 0.85rem;
+      font-size: 14px;
       color: var(--text-muted);
       font-style: italic;
     }
@@ -257,14 +259,14 @@ NOTES FOR TEAM:
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 18px;
       flex-shrink: 0;
     }
 
     .book-info { flex: 1; min-width: 0; }
 
     .book-title {
-      font-size: 0.88rem;
+      font-size: 14px;
       font-weight: 600;
       color: var(--text-dark);
       white-space: nowrap;
@@ -273,10 +275,21 @@ NOTES FOR TEAM:
     }
 
     .book-author {
-      font-size: 0.78rem;
+      font-size: 12px;
       color: var(--text-muted);
       margin-top: 2px;
     }
+
+    .book-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 5px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
     .book-actions { display: flex; gap: 8px; flex-shrink: 0; }
 
@@ -286,7 +299,7 @@ NOTES FOR TEAM:
       border: 1.5px solid var(--tan);
       background: var(--white);
       color: var(--text-muted);
-      font-size: 0.78rem;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       font-family: 'Segoe UI', sans-serif;
@@ -304,7 +317,7 @@ NOTES FOR TEAM:
       border: 1.5px solid var(--mid-blue);
       background: var(--white);
       color: var(--dark-blue);
-      font-size: 0.78rem;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       font-family: 'Segoe UI', sans-serif;
@@ -319,21 +332,21 @@ NOTES FOR TEAM:
       border: 1.5px solid var(--border);
       border-radius: 8px;
       background: var(--off-white);
-      padding: 1.25rem;
+      padding: 20px;
       text-align: center;
-      margin: 1rem 0;
+      margin: 16px 0;
     }
 
     .timer-label {
-      font-size: 0.75rem;
+      font-size: 12px;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 1.3px;
       margin-bottom: 8px;
     }
 
     .timer-count {
-      font-size: 2.8rem;
+      font-size: 45px;
       font-weight: 700;
       color: var(--dark-blue);
       line-height: 1;
@@ -342,7 +355,7 @@ NOTES FOR TEAM:
     .timer-count.done    { color: var(--brown); }
 
     .timer-sub {
-      font-size: 0.78rem;
+      font-size: 12px;
       color: var(--text-muted);
       margin-top: 8px;
       font-style: italic;
@@ -359,7 +372,7 @@ NOTES FOR TEAM:
       padding: 10px;
       border-radius: 8px;
       font-family: 'Segoe UI', sans-serif;
-      font-size: 0.88rem;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
@@ -378,7 +391,7 @@ NOTES FOR TEAM:
 
     .timer-note {
       text-align: center;
-      font-size: 0.78rem;
+      font-size: 12px;
       color: var(--text-muted);
       font-style: italic;
     }
@@ -391,11 +404,11 @@ NOTES FOR TEAM:
       border: none;
       border-radius: 8px;
       font-family: 'Segoe UI', sans-serif;
-      font-size: 0.95rem;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       transition: background 0.2s;
-      margin-top: 1.25rem;
+      margin-top: 20px;
       display: block;
       text-align: center;
       text-decoration: none;
@@ -408,17 +421,17 @@ NOTES FOR TEAM:
     }
     .btn-log.guest:hover { background: var(--cream); }
 
-    .favourites-section { margin-top: 0.5rem; }
+    .favourites-section { margin-top: 8px; }
 
     .favourites-title {
-      font-size: 1.1rem;
+      font-size: 18px;
       font-weight: 700;
       color: var(--dark-blue);
-      margin-bottom: 0.75rem;
+      margin-bottom: 12px;
     }
 
     .fav-empty {
-      font-size: 0.85rem;
+      font-size: 14px;
       color: var(--text-muted);
       font-style: italic;
     }
@@ -438,7 +451,7 @@ NOTES FOR TEAM:
     .fav-item-info { flex: 1; min-width: 0; }
 
     .fav-item-title {
-      font-size: 0.88rem;
+      font-size: 14px;
       font-weight: 600;
       color: var(--text-dark);
       white-space: nowrap;
@@ -447,7 +460,7 @@ NOTES FOR TEAM:
     }
 
     .fav-item-author {
-      font-size: 0.78rem;
+      font-size: 12px;
       color: var(--text-muted);
       margin-top: 2px;
     }
@@ -458,7 +471,7 @@ NOTES FOR TEAM:
       border: 1.5px solid var(--caramel);
       background: var(--caramel);
       color: var(--white);
-      font-size: 0.78rem;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       font-family: 'Segoe UI', sans-serif;
@@ -585,8 +598,8 @@ NOTES FOR TEAM:
 
     @media (max-width: 500px) {
       .form-row { grid-template-columns: 1fr; }
-      .page-title { font-size: 1.6rem; }
-      .timer-count { font-size: 2rem; }
+      .page-title { font-size: 26px; }
+      .timer-count { font-size: 32px; }
       .timer-btn-row { grid-template-columns: 1fr; }
     }
   </style>
