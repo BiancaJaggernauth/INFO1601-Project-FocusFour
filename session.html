@@ -53,20 +53,22 @@ NOTES FOR TEAM:
 
     nav {
       background: var(--dark-blue);
-      padding: 0 24px;
-      height: 52px;
+      padding: 0 48px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     .nav-logo {
       font-size: 24px;
       font-weight: 700;
       color: var(--off-white);
+      text-decoration: none;
     }
 
-    .nav-right { display: flex; gap: 10px; }
+    .nav-right { display: flex; gap: 10px; align-items: center; }
 
     .nav-btn {
       padding: 6px 18px;
@@ -81,24 +83,24 @@ NOTES FOR TEAM:
 
     .nav-btn-outline {
       background: transparent;
-      border: 2px solid var(--off-white);
+      border: 1.5px solid var(--off-white);
       color: var(--off-white);
     }
     .nav-btn-outline:hover { background: var(--off-white); color: var(--dark-blue); }
 
     .nav-btn-solid {
       background: var(--caramel);
-      border: 2px solid var(--caramel);
+      border: 1.5px solid var(--caramel);
       color: var(--white);
     }
     .nav-btn-solid:hover { background: var(--brown); border-color: var(--brown); }
 
     .page-wrap {
-  width: 98%;
-  max-width: 1600px; 
-  margin: 0 auto;
-  padding: 32px 20px 48px;
-}
+      width: 98%;
+      max-width: 1600px; 
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
 
     .page-title {
       font-size: 32px;
@@ -352,7 +354,7 @@ NOTES FOR TEAM:
       line-height: 1;
     }
     .timer-count.running { color: var(--caramel); }
-    .timer-count.done    { color: var(--brown); }
+    .timer-count.done     { color: var(--brown); }
 
     .timer-sub {
       font-size: 12px;
@@ -601,16 +603,18 @@ NOTES FOR TEAM:
       .page-title { font-size: 26px; }
       .timer-count { font-size: 32px; }
       .timer-btn-row { grid-template-columns: 1fr; }
+      nav { padding: 0 20px; }
     }
   </style>
 </head>
 <body>
 
 <nav>
-  <span class="nav-logo">Focus Four</span>
+  <a href="index.html" class="nav-logo">Focus Four</a>
   <div class="nav-right">
-  <a href="dashboard.html" class="nav-btn nav-btn-outline">Dashboard</a>
-  <a href="register.html" class="nav-btn nav-btn-solid">Register</a>
+    <a href="index.html" class="nav-btn nav-btn-outline">Home</a>
+    <a href="dashboard.html" class="nav-btn nav-btn-outline">Dashboard</a>
+    <a href="register.html" class="nav-btn nav-btn-solid">Register</a>
   </div>
 </nav>
 
@@ -696,34 +700,34 @@ NOTES FOR TEAM:
         <div class="mood-toggle-sub">Music to help you focus</div>
       </div>
     </div>
-    <span class="mood-arrow" id="mood-arrow">&#9660;</span>
+    <span class="mood-arrow" id="mood-arrow">▼</span>
   </button>
 <div id="mood-body" style="display: none; padding: 0 28px 28px;">
     <div class="section">
       <p style="font-size: 13px; color: #6b6b6b; margin-bottom: 12px;">Pick a vibe — we'll queue up a soothing YouTube mix for you</p>
       <div class="mood-grid">
         <button class="mood-btn active" onclick="setMood(this,'lofi')">
-          <div class="mood-icon">&#127911;</div>
+          <div class="mood-icon">🎧</div>
           <div class="mood-label">Lo-fi Beats<span>Chill hip-hop focus</span></div>
         </button>
         <button class="mood-btn" onclick="setMood(this,'classical')">
-          <div class="mood-icon">&#127908;</div>
-          <div class="mood-label">Classical<span>Piano &amp; orchestral calm</span></div>
+          <div class="mood-icon">🎤</div>
+          <div class="mood-label">Classical<span>Piano & orchestral calm</span></div>
         </button>
         <button class="mood-btn" onclick="setMood(this,'nature')">
-          <div class="mood-icon">&#127807;</div>
-          <div class="mood-label">Nature Sounds<span>Rain, forest &amp; waves</span></div>
+          <div class="mood-icon">🌿</div>
+          <div class="mood-label">Nature Sounds<span>Rain, forest & waves</span></div>
         </button>
         <button class="mood-btn" onclick="setMood(this,'ambient')">
-          <div class="mood-icon">&#10024;</div>
+          <div class="mood-icon">✨</div>
           <div class="mood-label">Ambient / Space<span>Deep focus drones</span></div>
         </button>
         <button class="mood-btn" onclick="setMood(this,'jazz')">
-          <div class="mood-icon">&#127926;</div>
+          <div class="mood-icon">🎶</div>
           <div class="mood-label">Jazz Café<span>Smooth background jazz</span></div>
         </button>
         <button class="mood-btn" onclick="setMood(this,'binaural')">
-          <div class="mood-icon">&#129504;</div>
+          <div class="mood-icon">🧠</div>
           <div class="mood-label">Binaural Beats<span>Deep alpha focus waves</span></div>
         </button>
       </div>
@@ -746,7 +750,7 @@ NOTES FOR TEAM:
           </svg>
           <span class="spotify-own-title">Your Spotify</span>
         </div>
-        <p class="spotify-own-sub">e.g. https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M</p>
+        <p class="spotify-own-sub">e.g. https://open.spotify.com/playlist/...</p>
         <div class="spotify-input-row">
           <input type="text" id="spotify-link-input" placeholder="Paste Spotify link here..."/>
           <button class="btn-load-spotify" onclick="loadSpotify()">Load</button>
