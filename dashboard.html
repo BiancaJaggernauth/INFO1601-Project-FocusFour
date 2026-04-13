@@ -24,7 +24,6 @@ NOTES FOR TEAM:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FocusFour | Student Dashboard</title>
     <style>
-        /* Keeping your original styles... */
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
@@ -34,28 +33,58 @@ NOTES FOR TEAM:
             line-height: 1.6;
         }
 
-        .top-nav {
-            background-color: #355872;
-            color: #F7F8F0;
-            padding: 16px 48px; 
+        /* UNIFIED NAVBAR STYLES */
+        nav {
+            background: #355872;
+            padding: 0 48px;
+            height: 60px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .logo { font-size: 24px; letter-spacing: 1px; }
-
-        .logout-btn {
-            background: transparent;
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
             color: #F7F8F0;
-            border: 1px solid #F7F8F0;
-            padding: 5px 15px;
-            border-radius: 4px;
-            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 1px;
         }
 
-        .logout-btn:hover { background: #F7F8F0; color: #355872; }
+        .nav-right { display: flex; gap: 10px; align-items: center; }
+
+        #nav-user {
+            color: #F7F8F0;
+            margin-right: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-btn {
+            padding: 6px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Segoe UI', sans-serif;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-btn-outline {
+            background: transparent;
+            border: 1.5px solid #F7F8F0;
+            color: #F7F8F0;
+        }
+        .nav-btn-outline:hover { background: #F7F8F0; color: #355872; }
+
+        .nav-btn-solid {
+            background: #C08552;
+            border: 1.5px solid #C08552;
+            color: #ffffff;
+        }
+        .nav-btn-solid:hover { background: #8C5A3C; border-color: #8C5A3C; }
 
         .dashboard-wrapper { padding: 32px; max-width: 1200px; margin: auto; }
 
@@ -81,10 +110,7 @@ NOTES FOR TEAM:
             min-width: 220px;
         }
 
-        /* Styling for the new Streak Card */
-        .streak-card {
-            background-color: #4a7a9b; 
-        }
+        .streak-card { background-color: #4a7a9b; }
 
         .stat-card:hover { transform: translateY(-5px); }
         .stat-number { font-size: 32px; display: block; margin: 10px 0; }
@@ -135,17 +161,6 @@ NOTES FOR TEAM:
 
         .action-btn:hover { background-color: #8C5A3C; }
 
-        .book-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px; 
-            border-bottom: 1px solid #AACDDC;
-            background: #ffffff;
-        }
-
-        .empty-state { color: #81A6C6; font-style: italic; padding: 16px; }
-
         .history-item {
             background: #fff;
             border: 1px solid #AACDDC;
@@ -175,16 +190,23 @@ NOTES FOR TEAM:
         }
 
         .delete-btn:hover { background: #C08552; color: white; }
+
+        @media (max-width: 600px) {
+            nav { padding: 0 20px; }
+            #nav-user { display: none; }
+        }
     </style>
 </head>
 
 <body>
 
-    <nav class="top-nav">
-        <h1 class="logo">FocusFour</h1>
+    <nav>
+        <a href="index.html" class="nav-logo">FocusFour</a>
         <div class="nav-right">
             <span id="nav-user">Hi, User</span>
-            <button class="logout-btn" id="logoutBtn">Logout</button>
+            <a href="index.html" class="nav-btn nav-btn-outline">Home</a>
+            <a href="session.html" class="nav-btn nav-btn-outline">Session</a>
+            <button class="nav-btn nav-btn-solid" id="logoutBtn">Logout</button>
         </div>
     </nav>
 
