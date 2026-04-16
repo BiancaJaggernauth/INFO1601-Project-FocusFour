@@ -13,6 +13,17 @@
       "sizes": "512x512"
     }
   ],
+
+  "screenshots": [
+  {
+    "src": "screenshot-wide.png",
+    "sizes": "1280x720",
+    "type": "image/png",
+    "form_factor": "wide",
+    "label": "Student Dashboard"
+  }
+  ]
+
   "start_url": "../dashboard.html",
   "display": "standalone",
   "scope": "/",
