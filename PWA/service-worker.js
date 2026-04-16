@@ -19,12 +19,15 @@ const assets = [
   '../register.html',
   '../dashboard.html',
   '../session.html',
+  '../aboutus.html',
   'manifest.json',
   'icon-192.png',
   'icon-fixed-512.png',
+  'screenshot-wide.png',
+  'screenshot-mobile.png',
   '../JS/auth.js',
   '../JS/dashboard.js',
-  '../JS/session.js',
+  '../JS/session.js'
 ];
 
 self.addEventListener('install', evt => {
