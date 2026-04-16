@@ -11,7 +11,7 @@ NOTES FOR TEAM:
 - Advanced caching is optional
 */
 
-const cacheName = 'focus-four-v1';
+const cacheName = 'focus-four-v2'; // Changed to v2 to force a refresh
 const assets = [
   '/',
   '../index.html',
@@ -23,11 +23,11 @@ const assets = [
   'manifest.json',
   'icon-192.png',
   'icon-fixed-512.png',
-  'screenshot-wide.png',
-  'screenshot-mobile.png',
+  'screenshot-wide.png',     
+  'screenshot-mobile.png',   
   '../JS/auth.js',
   '../JS/dashboard.js',
-  '../JS/session.js'
+  '../JS/session.js',
 ];
 
 self.addEventListener('install', evt => {
