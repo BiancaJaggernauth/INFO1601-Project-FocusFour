@@ -22,11 +22,11 @@
     "label": "Desktop Dashboard"
   },
   {
-    "src": "screenshot-mobile.png",
-    "sizes": "132x287",
-    "type": "image/png",
-    "form_factor": "narrow",
-    "label": "Mobile Dashboard"
+  "src": "screenshot-mobile.png",
+  "sizes": "390x844", 
+  "type": "image/png",
+  "form_factor": "narrow",
+  "label": "Mobile Dashboard"
   }
   ],
   "start_url": "../dashboard.html",
