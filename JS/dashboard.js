@@ -96,6 +96,7 @@ function renderDashboard() {
     statStreak.textContent = calculateStreak(sessionDates);
 
     renderFavoritesOnDashboard();
+    renderSubjectBreakdown();
 }
 
 function calculateStreak(dates) {
@@ -150,4 +151,38 @@ function renderFavoritesOnDashboard() {
         `;
         favList.appendChild(item);
     });
+}
+
+function renderSubjectBreakdown() {
+    const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+    const subjectList = document.getElementById("subjectList");
+    
+    if (!subjectList) return;
+    subjectList.innerHTML = ""; 
+    
+    if (sessions.length === 0) {
+        subjectList.innerHTML = '<div class="empty-state">No sessions logged yet.</div>';
+        return;
+    }
+
+    const subjectTotals = {};
+
+    sessions.forEach(session => {
+        const name = session.subject || "Other";
+        const mins = parseInt(session.duration) || 0;
+        subjectTotals[name] = (subjectTotals[name] || 0) + mins;
+    });
+
+    for (const [subject, totalMins] of Object.entries(subjectTotals)) {
+        const hours = (totalMins / 60).toFixed(1);
+        
+        const card = document.createElement("div");
+        card.className = "subject-card";
+        
+        card.innerHTML = `
+            <div class="subject-card-name">${subject}</div>
+            <div class="subject-card-hours">${hours} <span style="font-size: 0.7rem;">hrs</span></div>
+        `;
+        subjectList.appendChild(card);
+    }
 }

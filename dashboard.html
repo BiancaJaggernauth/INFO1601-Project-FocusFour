@@ -110,6 +110,28 @@ NOTES FOR TEAM:
             min-width: 220px;
         }
 
+        //Filtering per sibject cards
+
+        .subject-card {
+            background: #f0f4f7;
+            border: 1px solid #355872;
+            padding: 10px 15px;
+            border-radius: 8px;
+            min-width: 120px;
+        }
+
+        .subject-card-name {
+            font-weight: bold; 
+            color: #355872; 
+            font-size: 0.9rem;
+        }
+
+        .subject-card-hours {
+            color: #C08552; 
+            font-size: 1.1rem; 
+            font-weight: 700;
+        }
+
         .streak-card { background-color: #4a7a9b; }
 
         .stat-card:hover { transform: translateY(-5px); }
@@ -251,6 +273,17 @@ NOTES FOR TEAM:
                     <button class="action-btn" onclick="location.href='login.html'">Go to Login</button>
                 </div>
             </div>
+
+     <section class="subject-breakdown" style="margin-bottom: 32px;">
+       <div class="card">
+            <h2 class="section-title">Hours per Subject</h2>
+         <div id="subjectList">
+                <div class="empty-state">No sessions logged yet.</div>
+        </div>
+            </div>
+     </section>
+
+<hr style="border: none; border-top: 1px solid #AACDDC; margin: 24px 0;"/>
 
             <section class="history-container">
                 <h3>My Study History</h3>
