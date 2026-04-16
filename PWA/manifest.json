@@ -23,7 +23,7 @@
   },
   {
   "src": "screenshot-mobile.png",
-  "sizes": "390x844", 
+  "sizes": "1170x2531", 
   "type": "image/png",
   "form_factor": "narrow",
   "label": "Mobile Dashboard"
