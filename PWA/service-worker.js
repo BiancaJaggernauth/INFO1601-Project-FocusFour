@@ -20,7 +20,7 @@ const assets = [
   '/dashboard.html',
   '/session.html',
   '/PWA/icon-192.png',
-  '/PWA/icon-512.png',
+  '/PWA/icon-fixed-512.png',
   '/JS/auth.js',
   '/JS/dashboard.js',
   '/JS/session.js',
