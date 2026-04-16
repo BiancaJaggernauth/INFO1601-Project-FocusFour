@@ -21,6 +21,7 @@ NOTES FOR TEAM:
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FocusFour</title>
+  <link rel="manifest" href="PWA/manifest.json">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     * { box-sizing: border-box; }
@@ -519,23 +520,23 @@ NOTES FOR TEAM:
         </div>
 
         <div class="col-6 fade-in d2">
-          <a href="dashboard.html" class="feat-card">
-            <div class="illus-box">
-              <svg width="54" height="42" viewBox="0 0 54 42">
-                <rect x="2" y="2" width="50" height="38" rx="4" fill="#EBF5FA" stroke="#2E7D9A" stroke-width="1.5"/>
-                <rect x="2" y="2" width="50" height="10" rx="4" fill="#2E7D9A"/>
-                <circle cx="8" cy="7" r="2" fill="#C8E6F0"/>
-                <circle cx="15" cy="7" r="2" fill="#89C4DA"/>
-                <rect x="8" y="28" width="8" height="10" rx="1" fill="#89C4DA"/>
-                <rect x="20" y="20" width="8" height="18" rx="1" fill="#2E7D9A"/>
-                <rect x="32" y="15" width="8" height="23" rx="1" fill="#4B2E2B"/>
-                <rect x="44" y="22" width="6" height="16" rx="1" fill="#8B6145"/>
-              </svg>
-            </div>
-            <h5>My Dashboard</h5>
-            <span class="go-btn">Go</span>
-          </a>
-        </div>
+          <div id="dashboardCard" class="feat-card" style="cursor: pointer;">
+              <div class="illus-box">
+                  <svg width="54" height="42" viewBox="0 0 54 42">
+                      <rect x="2" y="2" width="50" height="38" rx="4" fill="#EBF5FA" stroke="#2E7D9A" stroke-width="1.5"/>
+                      <rect x="2" y="2" width="50" height="10" rx="4" fill="#2E7D9A"/>
+                      <circle cx="8" cy="7" r="2" fill="#C8E6F0"/>
+                      <circle cx="15" cy="7" r="2" fill="#89C4DA"/>
+                      <rect x="8" y="28" width="8" height="10" rx="1" fill="#89C4DA"/>
+                      <rect x="20" y="20" width="8" height="18" rx="1" fill="#2E7D9A"/>
+                      <rect x="32" y="15" width="8" height="23" rx="1" fill="#4B2E2B"/>
+                      <rect x="44" y="22" width="6" height="16" rx="1" fill="#8B6145"/>
+                  </svg>
+              </div>
+              <h5>My Dashboard</h5>
+              <span class="go-btn">Go</span>
+          </div>
+      </div>
 
         <div class="col-6 fade-in d3">
           <a href="login.html" class="feat-card">
@@ -652,14 +653,36 @@ NOTES FOR TEAM:
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        setRandomQuote();
-        
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('PWA/service-worker.js')
-              .then(reg => console.log('Service Worker Registered!'))
-              .catch(err => console.log('Service Worker registration failed: ', err));
+    setRandomQuote();
+    
+    const viewHistoryBtn = document.getElementById("viewHistoryBtn");
+    const dashboardCard = document.getElementById("dashboardCard");
+
+    function handleProtectedClick(targetUrl) {
+
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+        if (isLoggedIn) {
+            window.location.href = targetUrl;
+        } else {
+            alert("Access Denied: Please log in to view this section.");
         }
-    });
+    }
+
+    if (viewHistoryBtn) {
+        viewHistoryBtn.addEventListener("click", () => handleProtectedClick("dashboard.html"));
+    }
+
+    if (dashboardCard) {
+        dashboardCard.addEventListener("click", () => handleProtectedClick("dashboard.html"));
+    }
+   
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('PWA/service-worker.js')
+          .then(reg => console.log('Service Worker Registered!'))
+          .catch(err => console.log('Service Worker registration failed: ', err));
+    }
+});
   </script>
 </body>
 </html>
