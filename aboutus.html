@@ -51,6 +51,17 @@
       margin-bottom: 60px;
       animation: fadeDown 0.7s ease both;
     }
+
+    /* Updated styling for the link version of the logo */
+    .logo-link {
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s ease;
+    }
+    .logo-link:hover {
+      opacity: 0.8;
+    }
+
     .logo-badge {
       display: inline-block;
       background: #2d2a26;
@@ -248,7 +259,9 @@
   <div class="page-wrap">
 
     <header class="site-header">
-      <div class="logo-badge">FocusFour</div>
+      <a href="index.html" class="logo-link">
+        <div class="logo-badge">FocusFour</div>
+      </a>
       <h1>Built by students,<br/><em>for students.</em></h1>
       <p class="subtitle">A little team with a big belief in smarter study habits.</p>
     </header>
