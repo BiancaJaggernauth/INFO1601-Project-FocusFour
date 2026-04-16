@@ -11,7 +11,7 @@ NOTES FOR TEAM:
 - Advanced caching is optional
 */
 
-const cacheName = 'focus-four-v2'; // Changed to v2 to force a refresh
+const cacheName = 'focus-four-v3'; // Changed to v3 to force a refresh
 const assets = [
   '/',
   '../index.html',

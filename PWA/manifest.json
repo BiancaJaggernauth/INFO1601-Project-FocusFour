@@ -14,24 +14,24 @@
     }
   ],
   "screenshots": [
-    {
-      "src": "screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Desktop Dashboard"
-    },
-    {
-      "src": "screenshot-mobile.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Mobile Dashboard"
-    }
+  {
+    "src": "screenshot-wide.png",
+    "sizes": "1761x913",
+    "type": "image/png",
+    "form_factor": "wide",
+    "label": "Desktop Dashboard"
+  },
+  {
+    "src": "screenshot-mobile.png",
+    "sizes": "132x287",
+    "type": "image/png",
+    "form_factor": "narrow",
+    "label": "Mobile Dashboard"
+  }
   ],
   "start_url": "../dashboard.html",
   "display": "standalone",
   "scope": "/",
   "theme_color": "#355872",
   "background_color": "#ffffff"
-}
+} 
