@@ -55,7 +55,7 @@ NOTES FOR TEAM:
         </div>
       </div>
  
-      <a href="#" class="forgot" onclick="alert('Login link has been sent to your email. If you don\'t see it, check your spam folder.')">Forgot Password?</a>
+      <a href="#" class="forgot" onclick="alert('Login link has been sent to your email. If you do not see it, check your spam folder.')">Forgot Password?</a>
  
       <button class="btn btn-primary" onclick="login()">Login</button>
  
@@ -84,14 +84,13 @@ NOTES FOR TEAM:
       transform-style: preserve-3d;
     }
  
-    /* front of book*/
     .book-front {
       position: absolute;
       width: 100%;
       height: 100%;
       background: linear-gradient(150deg, #2d3561 0%, #2d6a7f 100%);
       border-radius: 4px 16px 16px 4px;
-      border-left: 12px solid #9f6d41;
+      border-left: 12px solid #472d16;
       box-shadow: -6px 4px 20px rgba(0,0,0,0.4), 4px 4px 30px rgba(0,0,0,0.25);
       display: flex;
       flex-direction: column;
@@ -141,18 +140,50 @@ NOTES FOR TEAM:
       position: absolute;
       width: 100%;
       height: 100%;
-      background:  #d0e8f5;
+      background:  #f3f3f3;
       border-radius: 4px 16px 16px 4px;
-      border-left: 12px solid #755030;
+      border-left: 12px solid #472d16;
       box-shadow: inset 8px 0 20px rgba(0,0,0,0.1);
       padding: 24px 28px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 9px;
+      gap: 18px;
       overflow-y: auto;
       z-index: 1;
       transition: background 0.4s ease;
+    }
+     .book-inside::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 30px,
+        #7ba7c2 30px,
+        #7ba7c2 31px
+      );
+      background-position: 0 15px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
+    .book-inside::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 8px;
+      width: 1.5px;
+      background: #e05050;
+      opacity: 0.6;
+      z-index: 1;
+      pointer-events: none;
+    }
+ 
+    .book-inside * {
+      position:relative;
+      z-index: 2;
     }
  
     .logo-area {
@@ -198,7 +229,7 @@ NOTES FOR TEAM:
       border: 2px solid #7ba7c2;
       border-radius: 8px;
       font-size: 14px;
-      background-color: #eaf4fb;
+      background-color: #ffffff;
       color: #1e2540;
       outline: none;
       transition: border-color 0.2s, background 0.2s;

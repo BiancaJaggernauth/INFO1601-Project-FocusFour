@@ -28,7 +28,6 @@ NOTES FOR TEAM:
     <div class="logo-area">
       <span class="logo-name">FocusFour</span>
     </div>
-
     <h2>Create Account</h2>
 
     <p id="errorMsg"></p>
@@ -82,22 +81,57 @@ NOTES FOR TEAM:
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #2d3561 0%, #2d6a7f 55%, #7ba7c2 100%);
+    background:  #2d6a7f;
   }
 
   .register-box {
     width: 380px;
-    background: linear-gradient(170deg, #d0e8f5 0%, #7ba7c2 50%, #2d6a7f 100%);
+    background:  #f3f3f3;
     border-radius: 4px 16px 16px 4px;
-    border-left: 12px solid #9c6b41;
+    border-left: 12px solid #472d16;
     box-shadow: inset 8px 0 20px rgba(0,0,0,0.1);
     padding: 24px 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 9px;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
   }
-
+ .register-box::before {
+   content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 30px,
+        #7ba7c2 30px,
+        #7ba7c2 31px
+      );
+      background-position: 0 15px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+  }
+ 
+  .register-box::after {
+   content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 8px;
+      width: 1.5px;
+      background: #e05050;
+      opacity: 0.6;
+      z-index: 1;
+      pointer-events: none;
+  }
+ 
+  .register-box * {
+    position: relative;
+    z-index: 2;
+  }
+ 
   .logo-area {
     background: #1e2540;
     border-radius: 12px;
@@ -136,7 +170,7 @@ NOTES FOR TEAM:
     border: 2px solid #7ba7c2;
     border-radius: 8px;
     font-size: 14px;
-    background-color: #eaf4fb;
+    background-color: #ffffff;
     color: #1e2540;
     outline: none;
   }
@@ -191,20 +225,27 @@ NOTES FOR TEAM:
     display: block;
     margin-top: 4px;
   }
+#errorMsg,
+#successMsg {
+  font-size: 12px;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
 
-  #errorMsg {
-    color: #7a1f1f;
-    font-size: 12px;
-    text-align: center;
-    min-height: 14px;
-  }
+#errorMsg {
+  color: #7a1f1f;
+}
 
-  #successMsg {
-    color: green;
-    font-size: 12px;
-    text-align: center;
-    min-height: 14px;
-  }
+#successMsg {
+  color: green;
+}
+
+#errorMsg:empty,
+#successMsg:empty {
+  opacity: 0;
+  height: 0;
+}
 </style>
 <script src="JS/auth.js"></script>
 </html>
