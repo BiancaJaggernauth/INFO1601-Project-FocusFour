@@ -55,13 +55,6 @@ NOTES FOR TEAM:
       }
     }
     //register
-     function togglePass() {
-    var input = document.getElementById('password');
-    var btn = document.querySelector('.eye-btn');
-    var isHidden = input.type === 'password';
-    input.type = isHidden ? 'text' : 'password';
-    btn.textContent = isHidden ? '🙈' : '👁';
-  }
 
   function register() {
     var fullname = document.getElementById("fullname").value;
