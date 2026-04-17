@@ -7,90 +7,59 @@
   <link rel="manifest" href="PWA/manifest.json">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .navbar {
-      background-color: #355872;
-      padding: 13px 24px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-      position: sticky; top: 0; z-index: 999;
-    }
-    .navbar-brand {
-      font-weight: bold; font-size: 1.25rem;
-      color: #F7F8F0 !important;
+    nav {
+      background: #355872;
+      padding: 0 48px;
+      height: 60px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .navbar-brand img {
-      height: 32px;
-      width: auto;
-      margin-right: 8px;
+    .nav-logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #F7F8F0;
+      text-decoration: none;
+      letter-spacing: 1px;
     }
-    .navbar-nav {
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-      align-items: center;
-    }
-    .navbar-nav .nav-link {
-      color: #C8E6F0 !important;
-      border: 1.5px solid #F7F8F0;
+    .nav-right { display: flex; gap: 10px; align-items: center; }
+    .nav-btn {
+      padding: 6px 18px;
       border-radius: 6px;
-      padding: 6px 18px !important;
-      font-size: 0.9rem;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Segoe UI', sans-serif;
       transition: all 0.2s;
-      white-space: nowrap;
+      text-decoration: none;
     }
-    .navbar-nav .nav-link:hover {
-      background-color: #F7F8F0;
-      color: #355872 !important;
+    .nav-btn-outline {
+      background: transparent;
+      border: 1.5px solid #F7F8F0;
+      color: #F7F8F0;
     }
-    @media (max-width: 991px) {
-      .navbar-collapse {
-        background-color: #4B2E2B;
-        padding: 12px;
-        border-radius: 8px;
-        margin-top: 8px;
-      }
-      .navbar-nav {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-      }
-      .navbar-nav .nav-link { text-align: center; }
+    .nav-btn-outline:hover { background: #F7F8F0; color: #355872; }
+    .nav-btn-solid {
+      background: #C08552;
+      border: 1.5px solid #C08552;
+      color: #ffffff;
     }
-    .navbar-toggler { border-color: #89C4DA; }
+    .nav-btn-solid:hover { background: #8C5A3C; border-color: #8C5A3C; }
+    @media (max-width: 600px) { nav { padding: 0 20px; } }
 
     body {
-      background-color: #fdf8f2;
+      background-color: #daeaf4;
       font-family: 'DM Sans', sans-serif;
       color: #2d2a26;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      top: -120px; left: -120px;
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, #f5c5b055 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -100px; right: -100px;
-      width: 420px; height: 420px;
-      background: radial-gradient(circle, #cfc3e455 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-    }
+    
 
     .page-wrap {
       position: relative;
@@ -106,7 +75,7 @@
       animation: fadeDown 0.7s ease both;
     }
 
-    /* Updated styling for the link version of the logo */
+    
     .logo-link {
       text-decoration: none;
       display: inline-block;
@@ -294,7 +263,7 @@
       text-align: center;
       margin-top: 64px;
       font-size: 13px;
-      color: #b0a89e;
+      color: #355872;
       animation: fadeUp 0.6s 0.7s ease both;
     }
     footer span { color: #f5c5b0; }
@@ -311,32 +280,20 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">
-        <img src="PWA/icon-192.png" alt="FocusFour Logo" />
-        FocusFour
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="index.html#how-it-works">Features</a></li>
-          <li class="nav-item"><a class="nav-link" href="aboutus.html">About Us</a></li>
-          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-        </ul>
-      </div>
+  <nav>
+    <a href="index.html" class="nav-logo">FocusFour</a>
+    <div class="nav-right">
+      <a href="index.html" class="nav-btn nav-btn-outline">Home</a>
+      <a href="index.html#how-it-works" class="nav-btn nav-btn-outline">Features</a>
+      <a href="aboutus.html" class="nav-btn nav-btn-outline">About Us</a>
+      <a href="login.html" class="nav-btn nav-btn-solid">Login</a>
     </div>
   </nav>
 
   <div class="page-wrap">
 
     <header class="site-header">
-      <a href="index.html" class="logo-link">
-        <div class="logo-badge">FocusFour</div>
-      </a>
+      
       <h1>Built by students,<br/><em>for students.</em></h1>
       <p class="subtitle">A little team with a big belief in smarter study habits.</p>
     </header>
@@ -344,21 +301,21 @@
     <div class="about-card">
       <h2>Our Story 📖</h2>
       <p>
-        We've all been there — exam week rolls around and you suddenly realise you've been spending
+        We've all been there.Exam week rolls around and you suddenly realise you've been spending
         three hours a night on one subject while completely neglecting another. You meant to study
         more, you thought you were on track, but somewhere between group chats and late-night snacks,
         the hours just… slipped away.
       </p>
       <p>
         FocusFour was born from that exact frustration. We're four university students who wanted
-        a tool that was honest, simple, and actually designed with <em>us</em> in mind — not a
+        a tool that was honest, simple, and actually designed with <em>us</em> in mind. Not a
         generic productivity app repurposed for students, but something built from scratch with
         our study struggles at the centre.
       </p>
       <p>
         So we built it. A focused, friendly study tracker that helps you log sessions, hit weekly
         goals, maintain streaks, and finally see where your time is really going. No fluff, no
-        overwhelm — just clarity, consistency, and a little motivation to keep showing up. 🎯
+        overwhelm. Just clarity, consistency, and a little motivation to keep showing up. 🎯
       </p>
     </div>
 
@@ -424,6 +381,5 @@
     </footer>
 
   </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
