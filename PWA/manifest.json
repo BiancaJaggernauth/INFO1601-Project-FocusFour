@@ -1,25 +1,37 @@
 {
-  "_comment": "FILE: manifest.json | PURPOSE: Defines PWA settings (app name, theme, installability). REQUIRED FOR PROJECT MARKS."
-}
-
-{
   "short_name": "FocusFour",
   "name": "FocusFour Student Dashboard",
   "icons": [
     {
-      "src": "../ICONS/icon-192.png",
+      "src": "icon-192.png", 
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "../ICONS/icon-512.png",
+      "src": "icon-fixed-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "../index.html",
-  "background_color": "#F7F8F0",
+  "screenshots": [
+  {
+    "src": "screenshot-wide.png",
+    "sizes": "1761x913",
+    "type": "image/png",
+    "form_factor": "wide",
+    "label": "Desktop Dashboard"
+  },
+  {
+  "src": "screenshot-mobile.png",
+  "sizes": "1170x2531", 
+  "type": "image/png",
+  "form_factor": "narrow",
+  "label": "Mobile Dashboard"
+  }
+  ],
+  "start_url": "../dashboard.html",
   "display": "standalone",
   "scope": "/",
-  "theme_color": "#355872"
-}
+  "theme_color": "#355872",
+  "background_color": "#ffffff"
+} 

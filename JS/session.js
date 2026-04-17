@@ -35,6 +35,17 @@ document.addEventListener("DOMContentLoaded", function () {
   renderLogButton();
   renderFavourites();
 
+  if (isLoggedIn()) {
+    document.querySelector(".guest-notice").style.display = "none";
+
+    const loginBtn = document.querySelector(".nav-btn-solid");
+    loginBtn.textContent = "Logged In";
+    loginBtn.removeAttribute("href");
+    loginBtn.style.cursor = "default";
+    loginBtn.style.background = "var(--brown)";
+    loginBtn.style.borderColor = "var(--brown)";
+  }
+
   document.getElementById("searchBtn").addEventListener("click", searchBooks);
   document.getElementById("bookInput").addEventListener("keydown", function (e) {
     if (e.key === "Enter") searchBooks();

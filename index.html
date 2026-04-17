@@ -21,6 +21,7 @@ NOTES FOR TEAM:
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FocusFour</title>
+  <link rel="manifest" href="PWA/manifest.json">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     * { box-sizing: border-box; }
@@ -349,7 +350,7 @@ NOTES FOR TEAM:
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">
-        <img src="icon-192.png" alt="FocusFour Logo" />
+        <img src="PWA/icon-192.png" alt="FocusFour Logo" />
         FocusFour
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -359,6 +360,7 @@ NOTES FOR TEAM:
         <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="#how-it-works">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="aboutus.html">About Us</a></li>
           <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
         </ul>
       </div>
@@ -519,23 +521,23 @@ NOTES FOR TEAM:
         </div>
 
         <div class="col-6 fade-in d2">
-          <a href="dashboard.html" class="feat-card">
-            <div class="illus-box">
-              <svg width="54" height="42" viewBox="0 0 54 42">
-                <rect x="2" y="2" width="50" height="38" rx="4" fill="#EBF5FA" stroke="#2E7D9A" stroke-width="1.5"/>
-                <rect x="2" y="2" width="50" height="10" rx="4" fill="#2E7D9A"/>
-                <circle cx="8" cy="7" r="2" fill="#C8E6F0"/>
-                <circle cx="15" cy="7" r="2" fill="#89C4DA"/>
-                <rect x="8" y="28" width="8" height="10" rx="1" fill="#89C4DA"/>
-                <rect x="20" y="20" width="8" height="18" rx="1" fill="#2E7D9A"/>
-                <rect x="32" y="15" width="8" height="23" rx="1" fill="#4B2E2B"/>
-                <rect x="44" y="22" width="6" height="16" rx="1" fill="#8B6145"/>
-              </svg>
-            </div>
-            <h5>My Dashboard</h5>
-            <span class="go-btn">Go</span>
-          </a>
-        </div>
+          <div id="dashboardCard" class="feat-card" style="cursor: pointer;">
+              <div class="illus-box">
+                  <svg width="54" height="42" viewBox="0 0 54 42">
+                      <rect x="2" y="2" width="50" height="38" rx="4" fill="#EBF5FA" stroke="#2E7D9A" stroke-width="1.5"/>
+                      <rect x="2" y="2" width="50" height="10" rx="4" fill="#2E7D9A"/>
+                      <circle cx="8" cy="7" r="2" fill="#C8E6F0"/>
+                      <circle cx="15" cy="7" r="2" fill="#89C4DA"/>
+                      <rect x="8" y="28" width="8" height="10" rx="1" fill="#89C4DA"/>
+                      <rect x="20" y="20" width="8" height="18" rx="1" fill="#2E7D9A"/>
+                      <rect x="32" y="15" width="8" height="23" rx="1" fill="#4B2E2B"/>
+                      <rect x="44" y="22" width="6" height="16" rx="1" fill="#8B6145"/>
+                  </svg>
+              </div>
+              <h5>My Dashboard</h5>
+              <span class="go-btn">Go</span>
+          </div>
+      </div>
 
         <div class="col-6 fade-in d3">
           <a href="login.html" class="feat-card">
@@ -587,7 +589,7 @@ NOTES FOR TEAM:
           </div>
           <div>
             <h5>Study History</h5>
-            <a href="dashboard.html" class="hist-btn">View History</a>
+            <button onclick="handleProtectedClick('dashboard.html')" class="hist-btn" style="border:none; cursor:pointer;">View History</button>
             <a href="login.html" class="hist-btn-outline">Login Required</a>
           </div>
         </div>
@@ -624,42 +626,77 @@ NOTES FOR TEAM:
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    const motivationalQuotes = [
-        { quote: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela" },
-        { quote: "The secret of getting ahead is getting started.", author: "Mark Twain" },
-        { quote: "Don’t let what you cannot do interfere with what you can do.", author: "John Wooden" },
-        { quote: "It always seems impossible until it's done.", author: "Nelson Mandela" },
-        { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
-        { quote: "The only place where success comes before work is in the dictionary.", author: "Vidal Sassoon" }
-    ];
+  const motivationalQuotes = [
+    { quote: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela" },
+    { quote: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+    { quote: "Don't let what you cannot do interfere with what you can do.", author: "John Wooden" },
+    { quote: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+    { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { quote: "The only place where success comes before work is in the dictionary.", author: "Vidal Sassoon" }
+  ];
 
-    function setRandomQuote() {
-        const quoteElement = document.getElementById("main-quote");
-        const authorElement = document.getElementById("quote-author");
+  function setRandomQuote() {
+    const quoteElement = document.getElementById("main-quote");
+    const authorElement = document.getElementById("quote-author");
+    if (quoteElement && authorElement) {
+      const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+      const selected = motivationalQuotes[randomIndex];
+      quoteElement.innerText = `"${selected.quote}"`;
+      authorElement.innerText = `— ${selected.author}`;
+    }
+  }
 
-        if (quoteElement && authorElement) {
-            const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
-            const selected = motivationalQuotes[randomIndex];
-            quoteElement.innerText = `"${selected.quote}"`;
-            authorElement.innerText = `— ${selected.author}`;
-        }
+  function toggleStep(el) {
+    const wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.step-row').forEach(r => r.classList.remove('open'));
+    if (!wasOpen) el.classList.add('open');
+  }
+
+  // Only used for Study History — shows modal if not logged in
+  function handleProtectedClick(targetUrl) {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (isLoggedIn) {
+      window.location.href = targetUrl;
+    } else {
+      document.getElementById("membersModal").style.display = "flex";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    setRandomQuote();
+
+    // Dashboard card goes DIRECTLY to dashboard, no login check
+    const dashboardCard = document.getElementById("dashboardCard");
+    if (dashboardCard) {
+      dashboardCard.addEventListener("click", () => {
+        window.location.href = "dashboard.html";
+      });
     }
 
-    function toggleStep(el) {
-      const wasOpen = el.classList.contains('open');
-      document.querySelectorAll('.step-row').forEach(r => r.classList.remove('open'));
-      if (!wasOpen) el.classList.add('open');
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('PWA/service-worker.js')
+        .then(reg => console.log('Service Worker Registered!'))
+        .catch(err => console.log('Service Worker registration failed: ', err));
     }
+  });
+</script>
 
-    document.addEventListener("DOMContentLoaded", function() {
-        setRandomQuote();
-        
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('PWA/service-worker.js')
-              .then(reg => console.log('Service Worker Registered!'))
-              .catch(err => console.log('Service Worker registration failed: ', err));
-        }
-    });
-  </script>
+    <!-- Members Only Modal (Study History only) -->
+<div id="membersModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(53,88,114,0.85); z-index:9999; justify-content:center; align-items:center;">
+  <div style="background:#F7F8F0; border:4px solid #C08552; border-radius:20px; padding:48px;
+    text-align:center; max-width:380px; width:90%;">
+    <h3 style="color:#4B2E2B; font-weight:700; margin-bottom:12px;">Members Only</h3>
+    <p style="color:#4B2E2B; margin-bottom:24px;">Login is needed to view your study history and save books.</p>
+    <a href="login.html" style="background:#C08552; color:white; padding:12px 28px;
+      border-radius:8px; font-weight:700; text-transform:uppercase; font-size:14px;
+      text-decoration:none; display:inline-block;">GO TO LOGIN</a>
+    <br><br>
+    <button onclick="document.getElementById('membersModal').style.display='none'"
+      style="background:transparent; border:none; color:#8B6145; font-size:13px; cursor:pointer;">
+      ✕ Close
+    </button>
+  </div>
+</div>
 </body>
 </html>
